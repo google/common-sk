@@ -51,8 +51,11 @@ docs:
 package-lock.json: package.json
 	npm install
 
+login:
+	npm login --registry https://wombat-dressing-room.appspot.com
+
 publish:
-	npm publish
+	npm publish --registry https://wombat-dressing-room.appspot.com
 
 update-major:
 	npm version major
