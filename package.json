@@ -3,7 +3,7 @@
   "version": "3.2.2",
   "description": "Common Skia JS modules.",
   "homepage": "https://github.com/google/common-sk",
-  "repository": "https://github.com/google/common-sk",
+  "repository": "https://github.com/google/common-sk.git",
   "main": "index.js",
   "license": "Apache-2.0",
   "devDependencies": {
