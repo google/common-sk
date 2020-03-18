@@ -37,22 +37,21 @@
 // if you need to debug tests using your desktop browser.
 const path = require('path');
 
-module.exports = function(dirname) {
-  return function(config) {
-
+module.exports = function (dirname) {
+  return function (config) {
     let webpackConfig = require(path.resolve(dirname, 'webpack.config.js'));
     // Webpack 3+ configs can be either objects or functions that produce the
     // config object. Karma currently doesn't handle the latter, so do it
     // ourselves here.
     if (typeof webpackConfig === 'function') {
-      webpackConfig = webpackConfig({}, {mode: 'development'});
+      webpackConfig = webpackConfig({}, { mode: 'development' });
     }
     webpackConfig.entry = null;
     webpackConfig.mode = 'development';
 
     // Work-around for karma-webpack issues:
     // https://github.com/webpack-contrib/karma-webpack/issues/322#issuecomment-417862717
-    webpackConfig.output= {
+    webpackConfig.output = {
       filename: '[name]',
     };
 
@@ -83,8 +82,8 @@ module.exports = function(dirname) {
 
       preprocessors: {
         // add webpack as preprocessor
-        'modules/*_test.js': [ 'webpack' ],
-        'modules/**/*_test.js': [ 'webpack' ],
+        'modules/*_test.js': ['webpack'],
+        'modules/**/*_test.js': ['webpack'],
       },
 
       // list of files to exclude
@@ -98,7 +97,7 @@ module.exports = function(dirname) {
 
 
       // Get the port from KARMA_PORT if it is set.
-      port: parseInt(process.env.KARMA_PORT || "9876"),
+      port: parseInt(process.env.KARMA_PORT || '9876'),
 
 
       // enable / disable colors in the output (reporters and logs)
@@ -119,6 +118,13 @@ module.exports = function(dirname) {
       browsers: ['Chrome'],
 
 
+      customLaunchers: {
+        ChromeHeadlessCustom: {
+          base: 'ChromeHeadless',
+          flags: ['--no-sandbox', '--disable-gpu'],
+        },
+      },
+
       // If browser does not capture in given timeout [ms], kill it
       captureTimeout: 60000,
 
@@ -134,5 +140,5 @@ module.exports = function(dirname) {
 
       webpack: webpackConfig,
     });
-  }
+  };
 };

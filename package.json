@@ -4,6 +4,11 @@
   "description": "Common Skia JS modules.",
   "homepage": "https://github.com/google/common-sk",
   "repository": "https://github.com/google/common-sk.git",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "test": "npx karma start --single-run --browsers=ChromeHeadlessCustom",
+    "build:ci": "npm ci && npm run clean && npm run test"
+  },
   "main": "index.js",
   "license": "Apache-2.0",
   "devDependencies": {
@@ -20,6 +25,8 @@
     "karma-webpack": "3.0.5",
     "mocha": "^5.2.0",
     "pulito": "^4.1.1",
+    "puppeteer": "^2.1.1",
+    "rimraf": "^3.0.2",
     "sinon": "^7.2.2",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
