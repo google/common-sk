@@ -20,6 +20,7 @@
     "karma-webpack": "3.0.5",
     "mocha": "^5.2.0",
     "pulito": "^4.1.1",
+    "puppeteer": "^2.1.1",
     "sinon": "^7.2.2",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
