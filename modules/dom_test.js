@@ -25,6 +25,7 @@ beforeEach(function () {
 afterEach(function () {
     container.innerHTML = '';
 });
+const assert = chai.assert;
 describe('$ aka querySelectorAll', function () {
     // checks that each "array-like" thing has
     // the same things in the same indices.

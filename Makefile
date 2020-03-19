@@ -1,4 +1,5 @@
 build: package-lock.json
+	tsc
 	npx webpack --mode=development
 
 production: package-lock.json
