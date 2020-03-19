@@ -11,7 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 /** @module common-sk/modules/jsonOrThrow */
+
 /** Helper function when making fetch() requests.
  *
  * Checks if the response is ok and converts it to JSON, otherwise it throws.
@@ -35,13 +37,12 @@
  *         for more detail on reading resp (e.g. resp.text()).
  */
 export function jsonOrThrow(resp) {
-    if (resp.ok) {
-        return resp.json();
-    }
-    throw {
-        message: `Bad network response: ${resp.statusText}`,
-        resp: resp,
-        status: resp.status
-    };
+  if (resp.ok) {
+    return resp.json();
+  }
+  throw {
+    message: `Bad network response: ${resp.statusText}`,
+    resp: resp,
+    status: resp.status
+  };
 }
-//# sourceMappingURL=jsonOrThrow.js.map

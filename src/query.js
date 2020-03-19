@@ -11,9 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 /** @module common-sk/modules/query
  *  @descripiton Utilities for working with URL query strings.
  */
+
 /** fromParamSet encodes an object of the form:
  * <pre>
  * {
@@ -34,18 +36,19 @@
  * @returns {string}
  */
 export function fromParamSet(o) {
-    if (!o) {
-        return "";
-    }
-    var ret = [];
-    var keys = Object.keys(o).sort();
-    keys.forEach(function (key) {
-        o[key].forEach(function (value) {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-        });
+  if (!o) {
+    return "";
+  }
+  var ret = [];
+  var keys = Object.keys(o).sort();
+  keys.forEach(function(key) {
+    o[key].forEach(function(value) {
+      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
     });
-    return ret.join('&');
+  });
+  return ret.join('&');
 }
+
 /** toParamSet parses a query string into an object with
  *  arrays of values for the values. I.e.
  *
@@ -68,24 +71,25 @@ export function fromParamSet(o) {
  * @returns {Object}
  */
 export function toParamSet(s) {
-    s = s || '';
-    var ret = {};
-    var vars = s.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=", 2);
-        if (pair.length == 2) {
-            var key = decodeURIComponent(pair[0]);
-            var value = decodeURIComponent(pair[1]);
-            if (ret.hasOwnProperty(key)) {
-                ret[key].push(value);
-            }
-            else {
-                ret[key] = [value];
-            }
-        }
+  s = s || '';
+  var ret = {};
+  var vars = s.split("&");
+  for (var i=0; i<vars.length; i++) {
+    var pair = vars[i].split("=", 2);
+    if (pair.length == 2) {
+      var key = decodeURIComponent(pair[0]);
+      var value = decodeURIComponent(pair[1]);
+      if (ret.hasOwnProperty(key)) {
+        ret[key].push(value);
+      } else {
+        ret[key] = [value];
+      }
     }
-    return ret;
+  }
+  return ret;
 }
+
+
 /** fromObject takes an object and encodes it into a query string.
  *
  * The reverse of this function is toObject.
@@ -94,22 +98,22 @@ export function toParamSet(s) {
  * @return {string}
  */
 export function fromObject(o) {
-    var ret = [];
-    Object.keys(o).sort().forEach(function (key) {
-        if (Array.isArray(o[key])) {
-            o[key].forEach(function (value) {
-                ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-            });
-        }
-        else if (typeof (o[key]) == 'object') {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(fromObject(o[key])));
-        }
-        else {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(o[key]));
-        }
-    });
-    return ret.join('&');
+  var ret = [];
+  Object.keys(o).sort().forEach(function(key) {
+    if (Array.isArray(o[key])) {
+      o[key].forEach(function(value) {
+        ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      })
+    } else if (typeof(o[key]) == 'object') {
+      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(fromObject(o[key])));
+    } else {
+      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(o[key]));
+    }
+  });
+  return ret.join('&');
 }
+
+
 /** toObject decodes a query string into an object.
  *
  * Uses the 'target' as a source for hinting on the types of the values.
@@ -154,46 +158,45 @@ export function fromObject(o) {
  * @returns {Object}
  */
 export function toObject(s, target) {
-    var target = target || {};
-    var ret = {};
-    var vars = s.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=", 2);
-        if (pair.length == 2) {
-            var key = decodeURIComponent(pair[0]);
-            var value = decodeURIComponent(pair[1]);
-            if (target.hasOwnProperty(key)) {
-                switch (typeof (target[key])) {
-                    case 'boolean':
-                        ret[key] = value == "true";
-                        break;
-                    case 'number':
-                        ret[key] = Number(value);
-                        break;
-                    case 'object': // Arrays report as 'object' to typeof.
-                        if (Array.isArray(target[key])) {
-                            var r = ret[key] || [];
-                            r.push(value);
-                            ret[key] = r;
-                        }
-                        else {
-                            ret[key] = toObject(value, target[key]);
-                        }
-                        break;
-                    case 'string':
-                        ret[key] = value;
-                        break;
-                    default:
-                        ret[key] = value;
-                }
+  var target = target || {};
+  var ret = {};
+  var vars = s.split("&");
+  for (var i=0; i<vars.length; i++) {
+    var pair = vars[i].split("=", 2);
+    if (pair.length == 2) {
+      var key = decodeURIComponent(pair[0]);
+      var value = decodeURIComponent(pair[1]);
+      if (target.hasOwnProperty(key)) {
+        switch (typeof(target[key])) {
+          case 'boolean':
+            ret[key] = value=="true";
+            break;
+          case 'number':
+            ret[key] = Number(value);
+            break;
+          case 'object': // Arrays report as 'object' to typeof.
+            if (Array.isArray(target[key])) {
+              var r = ret[key] || [];
+              r.push(value);
+              ret[key] = r;
+            } else {
+              ret[key] = toObject(value, target[key]);
             }
-            else {
-                ret[key] = value;
-            }
+            break;
+          case 'string':
+            ret[key] = value;
+            break;
+          default:
+            ret[key] = value;
         }
+      } else {
+        ret[key] = value;
+      }
     }
-    return ret;
+  }
+  return ret;
 }
+
 /** splitAmp returns the given query string as a newline
 *   separated list of key value pairs. If sepator is not
 *   provided newline will be used.
@@ -203,7 +206,5 @@ export function toObject(s, target) {
 *   @returns {string}
 */
 export function splitAmp(queryStr = '', separator = '\n') {
-    return queryStr.split('&').join(separator);
-}
-;
-//# sourceMappingURL=query.js.map
+  return queryStr.split('&').join(separator);
+};
