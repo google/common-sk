@@ -16,12 +16,17 @@
  *  @description Utitities for working with human friendly I/O.
  */
 
-const TIME_DELTAS = [
-  { units: "w", delta: 7*24*60*60 },
-  { units: "d", delta:   24*60*60 },
-  { units: "h", delta:      60*60 },
-  { units: "m", delta:         60 },
-  { units: "s", delta:          1 },
+interface Delta {
+  units: string;
+  delta: number;
+}
+
+const TIME_DELTAS: Array<Delta> = [
+  { units: 'w', delta: 7 * 24 * 60 * 60 },
+  { units: 'd', delta: 24 * 60 * 60 },
+  { units: 'h', delta: 60 * 60 },
+  { units: 'm', delta: 60 },
+  { units: 's', delta: 1 }
 ];
 
 /** @constant {number} */
@@ -35,13 +40,13 @@ export const TB = GB * 1024;
 /** @constant {number} */
 export const PB = TB * 1024;
 
-const BYTES_DELTAS = [
-  { units: " PB", delta: PB},
-  { units: " TB", delta: TB},
-  { units: " GB", delta: GB},
-  { units: " MB", delta: MB},
-  { units: " KB", delta: KB},
-  { units: " B",  delta:  1},
+const BYTES_DELTAS: Array<Delta> = [
+  { units: ' PB', delta: PB },
+  { units: ' TB', delta: TB },
+  { units: ' GB', delta: GB },
+  { units: ' MB', delta: MB },
+  { units: ' KB', delta: KB },
+  { units: ' B', delta: 1 }
 ];
 
 /** Left pad a number with 0's.
@@ -50,9 +55,11 @@ const BYTES_DELTAS = [
  * @param {number} size - The number of digits to pad out to.
  * @returns {string}
  */
-export function pad(num, size) {
-  let str = num + "";
-  while (str.length < size) str = "0" + str;
+export function pad(num: number, size: number): string {
+  let str = num + '';
+  while (str.length < size) {
+    str = '0' + str;
+  }
   return str;
 }
 
@@ -64,15 +71,17 @@ export function pad(num, size) {
  * @param {number} seconds - The duration.
  * @returns {string}
  */
-export function strDuration(seconds) {
+export function strDuration(seconds: number): string {
   if (seconds < 0) {
     seconds = -seconds;
   }
-  if (seconds === 0) { return '  0s'; }
-  let rv = "";
-  for (let i=0; i<TIME_DELTAS.length; i++) {
+  if (seconds === 0) {
+    return '  0s';
+  }
+  let rv = '';
+  for (let i = 0; i < TIME_DELTAS.length; i++) {
     if (TIME_DELTAS[i].delta <= seconds) {
-      let s = Math.floor(seconds/TIME_DELTAS[i].delta)+TIME_DELTAS[i].units;
+      let s = Math.floor(seconds / TIME_DELTAS[i].delta) + TIME_DELTAS[i].units;
       while (s.length < 4) {
         s = ' ' + s;
       }
@@ -81,7 +90,7 @@ export function strDuration(seconds) {
     }
   }
   return rv;
-};
+}
 
 /**
  * Returns the difference between the current time and 's' as a string in a
@@ -95,9 +104,9 @@ export function strDuration(seconds) {
  * @param {Object} milliseconds - The time in milliseconds or a time string.
  * @returns {string}
  */
-export function diffDate(s) {
-  let ms = (typeof(s) === "number") ? s : Date.parse(s);
-  let diff = (ms - Date.now())/1000;
+export function diffDate(s: number | string): string {
+  const ms = typeof s === 'number' ? s : Date.parse(s);
+  let diff = (ms - Date.now()) / 1000;
   if (diff < 0) {
     diff = -1.0 * diff;
   }
@@ -120,7 +129,7 @@ export function diffDate(s) {
  * @param {number} unit - The number of bytes per unit.
  * @returns {string}
  */
-export function bytes(b, unit = 1) {
+export function bytes(b: number, unit: number = 1): string {
   if (Number.isInteger(unit)) {
     b = b * unit;
   }
@@ -132,26 +141,25 @@ export function bytes(b, unit = 1) {
  * @param {Date} date
  * @returns {string}
  */
-export function localeTime(date) {
+export function localeTime(date: Date): string {
   // caching timezone could be buggy, especially if times from a wide range
   // of dates are used. The main concern would be crossing over Daylight
   // Savings time and having some times be erroneously in EST instead of
   // EDT, for example
-  let str = date.toString();
-  let timezone = str.substring(str.indexOf("("));
-  return date.toLocaleString() + " " + timezone;
+  const str = date.toString();
+  const timezone = str.substring(str.indexOf('('));
+  return date.toLocaleString() + ' ' + timezone;
 }
 
-
-function humanize(n, deltas) {
-  for (let i=0; i<deltas.length-1; i++) {
+function humanize(n: number, deltas: Array<Delta>) {
+  for (let i = 0; i < deltas.length - 1; i++) {
     // If n would round to '60s', return '1m' instead.
     let nextDeltaRounded =
-      Math.round(n/deltas[i+1].delta)*deltas[i+1].delta;
-    if (nextDeltaRounded/deltas[i].delta >= 1) {
-      return Math.round(n/deltas[i].delta)+deltas[i].units;
+      Math.round(n / deltas[i + 1].delta) * deltas[i + 1].delta;
+    if (nextDeltaRounded / deltas[i].delta >= 1) {
+      return Math.round(n / deltas[i].delta) + deltas[i].units;
     }
   }
-  let i = deltas.length-1;
-  return Math.round(n/deltas[i].delta)+deltas[i].units;
+  let i = deltas.length - 1;
+  return Math.round(n / deltas[i].delta) + deltas[i].units;
 }

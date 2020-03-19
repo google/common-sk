@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
 
   // Enable sourcemaps for debugging webpack's output.
   config.devtool = 'source-map';
-
+  /*
   config.resolve = {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx'],
@@ -46,6 +46,6 @@ module.exports = (env, argv) => {
     loader: 'source-map-loader',
   });
 
-
+*/
   return config;
 };
