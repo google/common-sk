@@ -18,34 +18,10 @@ const commonBuilder = require('pulito');
 module.exports = (env, argv) => {
   const config = commonBuilder(env, argv, __dirname);
 
-
   config.entry.tests = glob.sync('./modules/**/*_test.js');
 
   // Enable sourcemaps for debugging webpack's output.
   config.devtool = 'source-map';
-  /*
-  config.resolve = {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.ts', '.tsx'],
-  };
 
-  config.module.rules.push({
-    test: /\.ts(x?)$/,
-    exclude: /node_modules/,
-    use: [
-      {
-        loader: 'ts-loader',
-      },
-    ],
-  });
-
-  // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-  config.module.rules.push({
-    enforce: 'pre',
-    test: /\.js$/,
-    loader: 'source-map-loader',
-  });
-
-*/
   return config;
 };
