@@ -13,9 +13,9 @@
 // limitations under the License.
 
 /** @module common-sk/modules/stateReflector */
-import * as query from './query.js'
-import * as object from './object.js'
-import { DomReady } from './dom.js'
+import * as query from './query';
+import * as object from './object';
+import { DomReady } from './dom';
 
 /** Track the state of an object and reflect it to and from the URL.
  *
@@ -46,9 +46,12 @@ import { DomReady } from './dom.js'
  * @returns {function} A function to call when state has changed and needs to be reflected
  *   to the URL.
  */
-export function stateReflector(getState, setState) {
+export function stateReflector(
+  getState: () => object,
+  setState: (o: object) => void
+): () => void {
   // The default state of the stateHolder. Used to calculate diffs to state.
-  let defaultState = object.deepCopy(getState());
+  const defaultState = object.deepCopy(getState());
 
   // Have we done an initial read from the the existing query params.
   let loaded = false;
@@ -59,7 +62,7 @@ export function stateReflector(getState, setState) {
     loaded = true;
     let delta = query.toObject(window.location.search.slice(1), defaultState);
     setState(object.applyDelta(delta, defaultState));
-  }
+  };
 
   // When we are loaded we should update the state from the URL.
   DomReady.then(stateFromURL);
@@ -73,8 +76,11 @@ export function stateReflector(getState, setState) {
     if (!loaded) {
       return;
     }
-    let q = query.fromObject(object.getDelta(getState(), defaultState));
-    history.pushState(null, '', window.location.origin + window.location.pathname + '?' +  q);
+    const q = query.fromObject(object.getDelta(getState(), defaultState));
+    history.pushState(
+      null,
+      '',
+      window.location.origin + window.location.pathname + '?' + q
+    );
   };
 }
-
