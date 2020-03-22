@@ -15,13 +15,15 @@
 /** @module common-sk/modules/object
  *  @description Utility functions for dealing with Objects.
  */
-import { fromObject } from './query.js'
+import { fromObject } from './query';
 
 /** @method deepCopy
  *  @param {Object} object - The object to make a copy of.
  *  @returns {Object}
  */
-export const deepCopy = (o) => JSON.parse(JSON.stringify(o));
+export function deepCopy(o: any): any {
+  return JSON.parse(JSON.stringify(o));
+}
 
 /** Returns true if a and b are equal, covers Boolean, Number, String and Arrays and Objects.
  *
@@ -29,20 +31,22 @@ export const deepCopy = (o) => JSON.parse(JSON.stringify(o));
  * @param {(number|boolean|string|Array|Object)} b
  * @returns {boolean} True if the arguments are equal.
  */
-export function equals(a, b) {
-  if (typeof(a) !== typeof(b)) {
-    return false
+export function equals(
+  a: number | boolean | string | any[] | object,
+  b: number | boolean | string | any[] | object
+) {
+  if (typeof a !== typeof b) {
+    return false;
   }
-  let ta = typeof(a);
+  const ta = typeof a;
   if (ta === 'string' || ta === 'boolean' || ta === 'number') {
-    return a === b
+    return a === b;
   }
   if (ta === 'object') {
     if (Array.isArray(ta)) {
-      return JSON.stringify(a) === JSON.stringify(b)
-    } else {
-      return fromObject(a) === fromObject(b)
+      return JSON.stringify(a) === JSON.stringify(b);
     }
+    return fromObject(a) === fromObject(b);
   }
 }
 
@@ -60,15 +64,18 @@ export function equals(a, b) {
  * @returns {Object}
  *
  */
-export function getDelta(o, d) {
-    let ret = {};
-    Object.keys(o).forEach(function(key) {
-      if (!equals(o[key], d[key])) {
-        ret[key] = o[key];
-      }
-    });
-    return ret;
-  };
+export function getDelta(
+  o: { [key: string]: number | boolean | string | any[] | object },
+  d: { [key: string]: number | boolean | string | any[] | object }
+) {
+  const ret: { [key: string]: number | boolean | string | any[] | object } = {};
+  Object.keys(o).forEach(key => {
+    if (!equals(o[key], d[key])) {
+      ret[key] = o[key];
+    }
+  });
+  return ret;
+}
 
 /** Returns a copy of object o with values from delta if they exist.
  *
@@ -77,9 +84,12 @@ export function getDelta(o, d) {
  * @returns {Object}
  *
  */
-export function applyDelta(delta, o) {
-  let ret = {};
-  Object.keys(o).forEach(function(key) {
+export function applyDelta(
+  delta: { [key: string]: number | boolean | string | any[] | object },
+  o: { [key: string]: number | boolean | string | any[] | object }
+) {
+  const ret: { [key: string]: number | boolean | string | any[] | object } = {};
+  Object.keys(o).forEach(key => {
     if (delta.hasOwnProperty(key)) {
       ret[key] = deepCopy(delta[key]);
     } else {
@@ -87,5 +97,4 @@ export function applyDelta(delta, o) {
     }
   });
   return ret;
-};
-
+}

@@ -84,7 +84,7 @@ describe('The human functions', function () {
             [-3601000, '1h'],
             [3659000, '1h'],
             [-3660000, '1h'],
-            [5399000, '1h'],
+            [5398000, '1h'],
             [5400000, '2h'],
             [-84599000, '23h'],
             [-84600000, '1d'],
@@ -99,7 +99,7 @@ describe('The human functions', function () {
             let diffMs = testCase[0];
             let expected = testCase[1];
             let ms = now + diffMs;
-            assert.equal(human.diffDate(ms), expected, 'Input is ' + ms + ', now is ' + now);
+            assert.equal(human.diffDate(ms, now), expected, 'Input is ' + ms + ', now is ' + now);
             assert.equal(human.diffDate(new Date(ms).toISOString()), expected, 'Input is ' +
                 new Date(ms).toISOString() +
                 ', now is ' +

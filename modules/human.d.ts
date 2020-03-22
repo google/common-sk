@@ -34,9 +34,11 @@ export declare function strDuration(seconds: number): string;
  * would return "2m".
  *
  * @param {Object} milliseconds - The time in milliseconds or a time string.
+ * @param {Date} now - The time to diff against, if not supplied then the diff
+ * is done against Date.now().
  * @returns {string}
  */
-export declare function diffDate(s: number | string): string;
+export declare function diffDate(s: number | string, now?: number): string;
 /**
  * Formats the amount of bytes in a human friendly format.
  * unit may be supplied to indicate b is not in bytes, but in something

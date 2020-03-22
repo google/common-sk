@@ -159,7 +159,10 @@ export function fromObject(o: any): string {
  * @param {Object} target The object that contains the type hints.
  * @returns {Object}
  */
-export function toObject(s: string, target: { [key: string]: any }): object {
+export function toObject(
+  s: string,
+  target: { [key: string]: any }
+): { [key: string]: number | boolean | string | any[] | object } {
   var target = target || {};
   const ret: { [key: string]: any } = {};
   const vars = s.split('&');

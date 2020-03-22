@@ -14,12 +14,14 @@
 /** @module common-sk/modules/object
  *  @description Utility functions for dealing with Objects.
  */
-import { fromObject } from './query.js';
+import { fromObject } from './query';
 /** @method deepCopy
  *  @param {Object} object - The object to make a copy of.
  *  @returns {Object}
  */
-export const deepCopy = (o) => JSON.parse(JSON.stringify(o));
+export function deepCopy(o) {
+    return JSON.parse(JSON.stringify(o));
+}
 /** Returns true if a and b are equal, covers Boolean, Number, String and Arrays and Objects.
  *
  * @param {(number|boolean|string|Array|Object)} a
@@ -27,10 +29,10 @@ export const deepCopy = (o) => JSON.parse(JSON.stringify(o));
  * @returns {boolean} True if the arguments are equal.
  */
 export function equals(a, b) {
-    if (typeof (a) !== typeof (b)) {
+    if (typeof a !== typeof b) {
         return false;
     }
-    let ta = typeof (a);
+    const ta = typeof a;
     if (ta === 'string' || ta === 'boolean' || ta === 'number') {
         return a === b;
     }
@@ -38,9 +40,7 @@ export function equals(a, b) {
         if (Array.isArray(ta)) {
             return JSON.stringify(a) === JSON.stringify(b);
         }
-        else {
-            return fromObject(a) === fromObject(b);
-        }
+        return fromObject(a) === fromObject(b);
     }
 }
 /** Returns an object with only values that are in o that are different from d.
@@ -58,15 +58,14 @@ export function equals(a, b) {
  *
  */
 export function getDelta(o, d) {
-    let ret = {};
-    Object.keys(o).forEach(function (key) {
+    const ret = {};
+    Object.keys(o).forEach(key => {
         if (!equals(o[key], d[key])) {
             ret[key] = o[key];
         }
     });
     return ret;
 }
-;
 /** Returns a copy of object o with values from delta if they exist.
  *
  * @param {Object} delta - A delta object as returned from 'getDelta'.
@@ -75,8 +74,8 @@ export function getDelta(o, d) {
  *
  */
 export function applyDelta(delta, o) {
-    let ret = {};
-    Object.keys(o).forEach(function (key) {
+    const ret = {};
+    Object.keys(o).forEach(key => {
         if (delta.hasOwnProperty(key)) {
             ret[key] = deepCopy(delta[key]);
         }
@@ -86,5 +85,4 @@ export function applyDelta(delta, o) {
     });
     return ret;
 }
-;
 //# sourceMappingURL=object.js.map

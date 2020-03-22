@@ -100,7 +100,9 @@ export declare function fromObject(o: any): string;
  */
 export declare function toObject(s: string, target: {
     [key: string]: any;
-}): object;
+}): {
+    [key: string]: number | boolean | string | any[] | object;
+};
 /** splitAmp returns the given query string as a newline
  *   separated list of key value pairs. If sepator is not
  *   provided newline will be used.

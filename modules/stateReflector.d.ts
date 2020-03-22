@@ -27,5 +27,9 @@
  * @returns {function} A function to call when state has changed and needs to be reflected
  *   to the URL.
  */
-export declare function stateReflector(getState: () => object, setState: (o: object) => void): () => void;
+export declare function stateReflector(getState: () => {
+    [key: string]: number | boolean | string | any[] | object;
+}, setState: (o: {
+    [key: string]: number | boolean | string | any[] | object;
+}) => void): () => void;
 //# sourceMappingURL=stateReflector.d.ts.map
