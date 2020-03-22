@@ -21,5 +21,5 @@
  * @throws {Object} with status, resp, and message elements. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
  *         for more detail on reading resp (e.g. resp.text()).
  */
-export function jsonOrThrow(resp: any): Promise<any>;
+export declare function jsonOrThrow(resp: Response): Promise<any>;
 //# sourceMappingURL=jsonOrThrow.d.ts.map

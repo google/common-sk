@@ -107,7 +107,7 @@ describe('The human functions', function() {
       let expected = testCase[1];
       let ms = now + diffMs;
       assert.equal(
-        human.diffDate(ms),
+        human.diffDate(ms, now),
         expected,
         'Input is ' + ms + ', now is ' + now
       );

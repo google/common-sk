@@ -102,9 +102,14 @@ export function strDuration(seconds: number): string {
  * would return "2m".
  *
  * @param {Object} milliseconds - The time in milliseconds or a time string.
+ * @param {Date} now - The time to diff against, if not supplied then the diff
+ * is done against Date.now().
  * @returns {string}
  */
-export function diffDate(s: number | string): string {
+export function diffDate(s: number | string, now?: number): string {
+  if (now === undefined) {
+    now = Date.now();
+  }
   const ms = typeof s === 'number' ? s : Date.parse(s);
   let diff = (ms - Date.now()) / 1000;
   if (diff < 0) {

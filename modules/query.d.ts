@@ -20,7 +20,9 @@
  * @param {Object} o The object to encode.
  * @returns {string}
  */
-export function fromParamSet(o: Object): string;
+export declare function fromParamSet(o: {
+    [key: string]: Array<string>;
+}): string;
 /** toParamSet parses a query string into an object with
  *  arrays of values for the values. I.e.
  *
@@ -42,7 +44,9 @@ export function fromParamSet(o: Object): string;
  * @param {string} s The query string to decode.
  * @returns {Object}
  */
-export function toParamSet(s: string): Object;
+export declare function toParamSet(s: string): {
+    [key: string]: Array<string>;
+};
 /** fromObject takes an object and encodes it into a query string.
  *
  * The reverse of this function is toObject.
@@ -50,7 +54,7 @@ export function toParamSet(s: string): Object;
  * @param {Object} o The object to encode.
  * @return {string}
  */
-export function fromObject(o: Object): string;
+export declare function fromObject(o: any): string;
 /** toObject decodes a query string into an object.
  *
  * Uses the 'target' as a source for hinting on the types of the values.
@@ -94,14 +98,16 @@ export function fromObject(o: Object): string;
  * @param {Object} target The object that contains the type hints.
  * @returns {Object}
  */
-export function toObject(s: string, target: Object): Object;
+export declare function toObject(s: string, target: {
+    [key: string]: any;
+}): object;
 /** splitAmp returns the given query string as a newline
-*   separated list of key value pairs. If sepator is not
-*   provided newline will be used.
-*
-*   @param {string} [queryStr=''] A query string.
-*   @param {string} [separator='\n'] The separator to use when joining.
-*   @returns {string}
-*/
-export function splitAmp(queryStr?: string, separator?: string): string;
+ *   separated list of key value pairs. If sepator is not
+ *   provided newline will be used.
+ *
+ *   @param {string} [queryStr=''] A query string.
+ *   @param {string} [separator='\n'] The separator to use when joining.
+ *   @returns {string}
+ */
+export declare function splitAmp(queryStr?: string, separator?: string): string;
 //# sourceMappingURL=query.d.ts.map

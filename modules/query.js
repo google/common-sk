@@ -35,13 +35,13 @@
  */
 export function fromParamSet(o) {
     if (!o) {
-        return "";
+        return '';
     }
-    var ret = [];
-    var keys = Object.keys(o).sort();
-    keys.forEach(function (key) {
-        o[key].forEach(function (value) {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    const ret = [];
+    const keys = Object.keys(o).sort();
+    keys.forEach(key => {
+        o[key].forEach(value => {
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
         });
     });
     return ret.join('&');
@@ -69,13 +69,13 @@ export function fromParamSet(o) {
  */
 export function toParamSet(s) {
     s = s || '';
-    var ret = {};
-    var vars = s.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=", 2);
+    const ret = {};
+    const vars = s.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split('=', 2);
         if (pair.length == 2) {
-            var key = decodeURIComponent(pair[0]);
-            var value = decodeURIComponent(pair[1]);
+            const key = decodeURIComponent(pair[0]);
+            const value = decodeURIComponent(pair[1]);
             if (ret.hasOwnProperty(key)) {
                 ret[key].push(value);
             }
@@ -94,18 +94,20 @@ export function toParamSet(s) {
  * @return {string}
  */
 export function fromObject(o) {
-    var ret = [];
-    Object.keys(o).sort().forEach(function (key) {
+    const ret = [];
+    Object.keys(o)
+        .sort()
+        .forEach(key => {
         if (Array.isArray(o[key])) {
-            o[key].forEach(function (value) {
-                ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+            o[key].forEach((value) => {
+                ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
             });
         }
-        else if (typeof (o[key]) == 'object') {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(fromObject(o[key])));
+        else if (typeof o[key] === 'object') {
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(fromObject(o[key]))}`);
         }
         else {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(o[key]));
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(o[key])}`);
         }
     });
     return ret.join('&');
@@ -155,24 +157,24 @@ export function fromObject(o) {
  */
 export function toObject(s, target) {
     var target = target || {};
-    var ret = {};
-    var vars = s.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=", 2);
+    const ret = {};
+    const vars = s.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split('=', 2);
         if (pair.length == 2) {
-            var key = decodeURIComponent(pair[0]);
-            var value = decodeURIComponent(pair[1]);
+            const key = decodeURIComponent(pair[0]);
+            const value = decodeURIComponent(pair[1]);
             if (target.hasOwnProperty(key)) {
-                switch (typeof (target[key])) {
+                switch (typeof target[key]) {
                     case 'boolean':
-                        ret[key] = value == "true";
+                        ret[key] = value == 'true';
                         break;
                     case 'number':
                         ret[key] = Number(value);
                         break;
                     case 'object': // Arrays report as 'object' to typeof.
                         if (Array.isArray(target[key])) {
-                            var r = ret[key] || [];
+                            const r = ret[key] || [];
                             r.push(value);
                             ret[key] = r;
                         }
@@ -195,15 +197,14 @@ export function toObject(s, target) {
     return ret;
 }
 /** splitAmp returns the given query string as a newline
-*   separated list of key value pairs. If sepator is not
-*   provided newline will be used.
-*
-*   @param {string} [queryStr=''] A query string.
-*   @param {string} [separator='\n'] The separator to use when joining.
-*   @returns {string}
-*/
+ *   separated list of key value pairs. If sepator is not
+ *   provided newline will be used.
+ *
+ *   @param {string} [queryStr=''] A query string.
+ *   @param {string} [separator='\n'] The separator to use when joining.
+ *   @returns {string}
+ */
 export function splitAmp(queryStr = '', separator = '\n') {
     return queryStr.split('&').join(separator);
 }
-;
 //# sourceMappingURL=query.js.map
