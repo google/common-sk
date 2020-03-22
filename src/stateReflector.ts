@@ -62,7 +62,7 @@ export function stateReflector(
   // the state via setState() and triggers the callback.
   const stateFromURL = () => {
     loaded = true;
-    let delta = query.toObject(window.location.search.slice(1), defaultState);
+    const delta = query.toObject(window.location.search.slice(1), defaultState);
     setState(object.applyDelta(delta, defaultState));
   };
 

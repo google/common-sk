@@ -26,9 +26,7 @@
  *      } else {
  *        console.err(r.message);
  *      }
- }
  *    });
- });
  *
  * @returns {Promise}
  * @throws {Object} with status, resp, and message elements. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
@@ -40,7 +38,7 @@ export function jsonOrThrow(resp) {
     }
     throw {
         message: `Bad network response: ${resp.statusText}`,
-        resp: resp,
+        resp,
         status: resp.status
     };
 }

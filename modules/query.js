@@ -71,9 +71,9 @@ export function toParamSet(s) {
     s = s || '';
     const ret = {};
     const vars = s.split('&');
-    for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split('=', 2);
-        if (pair.length == 2) {
+    for (const v of vars) {
+        const pair = v.split('=', 2);
+        if (pair.length === 2) {
             const key = decodeURIComponent(pair[0]);
             const value = decodeURIComponent(pair[1]);
             if (ret.hasOwnProperty(key)) {
@@ -156,18 +156,18 @@ export function fromObject(o) {
  * @returns {Object}
  */
 export function toObject(s, target) {
-    var target = target || {};
+    target = target || {};
     const ret = {};
     const vars = s.split('&');
-    for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split('=', 2);
-        if (pair.length == 2) {
+    for (const v of vars) {
+        const pair = v.split('=', 2);
+        if (pair.length === 2) {
             const key = decodeURIComponent(pair[0]);
             const value = decodeURIComponent(pair[1]);
             if (target.hasOwnProperty(key)) {
                 switch (typeof target[key]) {
                     case 'boolean':
-                        ret[key] = value == 'true';
+                        ret[key] = value === 'true';
                         break;
                     case 'number':
                         ret[key] = Number(value);

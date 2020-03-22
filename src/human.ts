@@ -21,7 +21,7 @@ interface Delta {
   delta: number;
 }
 
-const TIME_DELTAS: Array<Delta> = [
+const TIME_DELTAS: Delta[] = [
   { units: 'w', delta: 7 * 24 * 60 * 60 },
   { units: 'd', delta: 24 * 60 * 60 },
   { units: 'h', delta: 60 * 60 },
@@ -40,7 +40,7 @@ export const TB = GB * 1024;
 /** @constant {number} */
 export const PB = TB * 1024;
 
-const BYTES_DELTAS: Array<Delta> = [
+const BYTES_DELTAS: Delta[] = [
   { units: ' PB', delta: PB },
   { units: ' TB', delta: TB },
   { units: ' GB', delta: GB },
@@ -79,14 +79,14 @@ export function strDuration(seconds: number): string {
     return '  0s';
   }
   let rv = '';
-  for (let i = 0; i < TIME_DELTAS.length; i++) {
-    if (TIME_DELTAS[i].delta <= seconds) {
-      let s = Math.floor(seconds / TIME_DELTAS[i].delta) + TIME_DELTAS[i].units;
+  for (const td of TIME_DELTAS) {
+    if (td.delta <= seconds) {
+      let s = Math.floor(seconds / td.delta) + td.units;
       while (s.length < 4) {
         s = ' ' + s;
       }
       rv += s;
-      seconds = seconds % TIME_DELTAS[i].delta;
+      seconds = seconds % td.delta;
     }
   }
   return rv;
@@ -156,15 +156,15 @@ export function localeTime(date: Date): string {
   return date.toLocaleString() + ' ' + timezone;
 }
 
-function humanize(n: number, deltas: Array<Delta>) {
+function humanize(n: number, deltas: Delta[]) {
   for (let i = 0; i < deltas.length - 1; i++) {
     // If n would round to '60s', return '1m' instead.
-    let nextDeltaRounded =
+    const nextDeltaRounded =
       Math.round(n / deltas[i + 1].delta) * deltas[i + 1].delta;
     if (nextDeltaRounded / deltas[i].delta >= 1) {
       return Math.round(n / deltas[i].delta) + deltas[i].units;
     }
   }
-  let i = deltas.length - 1;
-  return Math.round(n / deltas[i].delta) + deltas[i].units;
+  const index = deltas.length - 1;
+  return Math.round(n / deltas[index].delta) + deltas[index].units;
 }

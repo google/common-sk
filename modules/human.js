@@ -65,14 +65,14 @@ export function strDuration(seconds) {
         return '  0s';
     }
     let rv = '';
-    for (let i = 0; i < TIME_DELTAS.length; i++) {
-        if (TIME_DELTAS[i].delta <= seconds) {
-            let s = Math.floor(seconds / TIME_DELTAS[i].delta) + TIME_DELTAS[i].units;
+    for (const td of TIME_DELTAS) {
+        if (td.delta <= seconds) {
+            let s = Math.floor(seconds / td.delta) + td.units;
             while (s.length < 4) {
                 s = ' ' + s;
             }
             rv += s;
-            seconds = seconds % TIME_DELTAS[i].delta;
+            seconds = seconds % td.delta;
         }
     }
     return rv;
@@ -141,12 +141,12 @@ export function localeTime(date) {
 function humanize(n, deltas) {
     for (let i = 0; i < deltas.length - 1; i++) {
         // If n would round to '60s', return '1m' instead.
-        let nextDeltaRounded = Math.round(n / deltas[i + 1].delta) * deltas[i + 1].delta;
+        const nextDeltaRounded = Math.round(n / deltas[i + 1].delta) * deltas[i + 1].delta;
         if (nextDeltaRounded / deltas[i].delta >= 1) {
             return Math.round(n / deltas[i].delta) + deltas[i].units;
         }
     }
-    let i = deltas.length - 1;
-    return Math.round(n / deltas[i].delta) + deltas[i].units;
+    const index = deltas.length - 1;
+    return Math.round(n / deltas[index].delta) + deltas[index].units;
 }
 //# sourceMappingURL=human.js.map

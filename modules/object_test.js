@@ -15,7 +15,7 @@ import * as object from './object';
 const assert = chai.assert;
 describe('object functions', () => {
     function testGetDelta() {
-        const test = function (o, d, expected) {
+        const test = (o, d, expected) => {
             assert.deepEqual(object.getDelta(o, d), expected);
         };
         test({}, {}, {});
@@ -32,7 +32,7 @@ describe('object functions', () => {
         test({ a: undefined, b: NaN, c: false }, { a: null, b: null, c: null }, { a: undefined, b: NaN, c: false });
     }
     function testApplyDelta() {
-        const test = function (delta, o, expected) {
+        const test = (delta, o, expected) => {
             assert.deepEqual(object.applyDelta(delta, o), expected);
         };
         test({}, {}, {});

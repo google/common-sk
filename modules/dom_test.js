@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import { $, $$, findParent } from './dom.js';
-let container = document.createElement('div');
+const container = document.createElement('div');
 document.body.appendChild(container);
-beforeEach(function () {
+beforeEach(() => {
     container.innerHTML = `
   <div id=delta class=alpha></div>
   <span class=alpha></span>
@@ -22,11 +22,11 @@ beforeEach(function () {
   <video id=epsilon class=alpha></video>
 `;
 });
-afterEach(function () {
+afterEach(() => {
     container.innerHTML = '';
 });
 const assert = chai.assert;
-describe('$ aka querySelectorAll', function () {
+describe('$ aka querySelectorAll', () => {
     // checks that each "array-like" thing has
     // the same things in the same indices.
     // Useful for comparing the "not-quite-Array" that
@@ -38,46 +38,46 @@ describe('$ aka querySelectorAll', function () {
             assert.equal(arr[i], qsa[i]);
         }
     }
-    it('should mimic querySelectorAll', function () {
+    it('should mimic querySelectorAll', () => {
         assertEquals($('.alpha', container), container.querySelectorAll('.alpha'));
         assertEquals($('#epsilon', container), container.querySelectorAll('#epsilon'));
         assertEquals($('span', container), container.querySelectorAll('span'));
     });
-    it('should default to document', function () {
+    it('should default to document', () => {
         assertEquals($('.alpha'), document.querySelectorAll('.alpha'));
         assertEquals($('#epsilon'), document.querySelectorAll('#epsilon'));
         assertEquals($('span'), document.querySelectorAll('span'));
     });
-    it('should return a real array', function () {
-        let arr = $('.alpha');
+    it('should return a real array', () => {
+        const arr = $('.alpha');
         assert.isTrue(Array.isArray(arr));
     });
-    it('returns empty array if not found', function () {
-        let arr = $('#not-found');
+    it('returns empty array if not found', () => {
+        const arr = $('#not-found');
         assert.deepEqual([], arr);
     });
 });
-describe('$$ aka querySelector', function () {
-    it('should mimic querySelector', function () {
+describe('$$ aka querySelector', () => {
+    it('should mimic querySelector', () => {
         assert.equal($$('.alpha', container), container.querySelector('.alpha'));
         assert.equal($$('#epsilon', container), container.querySelector('#epsilon'));
         assert.equal($$('span', container), container.querySelector('span'));
     });
-    it('should default to document', function () {
+    it('should default to document', () => {
         assert.equal($$('.alpha'), document.querySelector('.alpha'));
         assert.equal($$('#epsilon'), document.querySelector('#epsilon'));
         assert.equal($$('span'), document.querySelector('span'));
     });
-    it('returns a single item', function () {
-        let ele = $$('.alpha');
+    it('returns a single item', () => {
+        const ele = $$('.alpha');
         assert.isFalse(Array.isArray(ele));
         assert.equal('delta', ele.id);
     });
 });
-describe('findParent', function () {
-    it('identifies the correct parent element', function () {
+describe('findParent', () => {
+    it('identifies the correct parent element', () => {
         // Add an HTML tree to the document.
-        var div = document.createElement('div');
+        const div = document.createElement('div');
         div.innerHTML =
             '<div id=a>' +
                 '  <p id=aa>' +

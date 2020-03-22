@@ -1,1 +1,1 @@
-{"version":3,"file":"jsonOrThrow.d.ts","sourceRoot":"","sources":["../src/jsonOrThrow.ts"],"names":[],"mappings":"AAcA,4CAA4C;AAE5C;;;;;;;;;;;;;;;;;;;;;GAqBG;AACH,wBAAgB,WAAW,CAAC,IAAI,EAAE,QAAQ,gBASzC"}
+{"version":3,"file":"jsonOrThrow.d.ts","sourceRoot":"","sources":["../src/jsonOrThrow.ts"],"names":[],"mappings":"AAcA,4CAA4C;AAE5C;;;;;;;;;;;;;;;;;;;GAmBG;AACH,wBAAgB,WAAW,CAAC,IAAI,EAAE,QAAQ,gBASzC"}

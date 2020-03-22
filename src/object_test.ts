@@ -18,11 +18,11 @@ const assert = chai.assert;
 
 describe('object functions', () => {
   function testGetDelta() {
-    const test = function(
+    const test = (
       o: { [key: string]: number | boolean | string | any[] | object },
       d: { [key: string]: number | boolean | string | any[] | object },
       expected: { [key: string]: number | boolean | string | any[] | object }
-    ) {
+    ) => {
       assert.deepEqual(object.getDelta(o, d), expected);
     };
     test({}, {}, {});
@@ -48,11 +48,11 @@ describe('object functions', () => {
   }
 
   function testApplyDelta() {
-    const test = function(
+    const test = (
       delta: { [key: string]: number | boolean | string | any[] | object },
       o: { [key: string]: number | boolean | string | any[] | object },
       expected: { [key: string]: number | boolean | string | any[] | object }
-    ) {
+    ) => {
       assert.deepEqual(object.applyDelta(delta, o), expected);
     };
     test({}, {}, {});

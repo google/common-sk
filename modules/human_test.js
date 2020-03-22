@@ -13,9 +13,9 @@
 // limitations under the License.
 import * as human from './human';
 const assert = chai.assert;
-describe('The human functions', function () {
+describe('The human functions', () => {
     function testPad() {
-        let testCases = [
+        const testCases = [
             [0, 0, '0'],
             [1, 1, '1'],
             [10, 1, '10'],
@@ -24,13 +24,13 @@ describe('The human functions', function () {
             [31558150, 8, '31558150'],
             [31558150, 9, '031558150']
         ];
-        for (let testCase of testCases) {
+        for (const testCase of testCases) {
             assert.equal(human.pad(testCase[0], testCase[1]), testCase[2]);
         }
     }
     it('should return padded integers from pad', testPad);
     function testStrDuration() {
-        let testCases = [
+        const testCases = [
             [0, '  0s'],
             [1, '  1s'],
             [-1, '  1s'],
@@ -54,14 +54,14 @@ describe('The human functions', function () {
             [604800, '  1w'],
             [31558150, ' 52w  1d  6h  9m 10s']
         ];
-        for (let testCase of testCases) {
+        for (const testCase of testCases) {
             assert.equal(human.strDuration(testCase[0]), testCase[1]);
         }
     }
     it('should return human-readable duration from strDuration', testStrDuration);
     function testDiffDate() {
-        let now = Date.now();
-        let testCases = [
+        const now = Date.now();
+        const testCases = [
             [0, '0s'],
             [1, '0s'],
             [499, '0s'],
@@ -95,10 +95,10 @@ describe('The human functions', function () {
             [604800000, '1w'],
             [31558150000, '52w'] // 52w 1d 06h 09m 10s
         ];
-        for (let testCase of testCases) {
-            let diffMs = testCase[0];
-            let expected = testCase[1];
-            let ms = now + diffMs;
+        for (const testCase of testCases) {
+            const diffMs = testCase[0];
+            const expected = testCase[1];
+            const ms = now + diffMs;
             assert.equal(human.diffDate(ms, now), expected, 'Input is ' + ms + ', now is ' + now);
             assert.equal(human.diffDate(new Date(ms).toISOString()), expected, 'Input is ' +
                 new Date(ms).toISOString() +
@@ -108,7 +108,7 @@ describe('The human functions', function () {
     }
     it('should return human-readable duration from diffDate', testDiffDate);
     function testBytes() {
-        let testBytes = [
+        const testBytesTestCases = [
             [0, '0 B'],
             [1, '1 B'],
             [499, '499 B'],
@@ -129,12 +129,12 @@ describe('The human functions', function () {
             [1073741824, '1 GB'],
             [1073741825, '1 GB'] // 1 GB 000 MB 000 KB 001 B
         ];
-        for (let tb of testBytes) {
-            let b = tb[0];
-            let expected = tb[1];
+        for (const tb of testBytesTestCases) {
+            const b = tb[0];
+            const expected = tb[1];
             assert.equal(human.bytes(b), expected, 'Input is ' + b + ', Unit is bytes');
         }
-        let testMB = [
+        const testMB = [
             [0, '0 B'],
             [1, '1 MB'],
             [499, '499 MB'],
@@ -155,9 +155,9 @@ describe('The human functions', function () {
             [1073741824, '1 PB'],
             [1073741825, '1 PB'] // 1 PB 000 TB 000 GB 001 MB
         ];
-        for (let tm of testMB) {
-            let b = tm[0];
-            let expected = tm[1];
+        for (const tm of testMB) {
+            const b = tm[0];
+            const expected = tm[1];
             assert.equal(human.bytes(b, human.MB), expected, 'Input is ' + b + ', Unit is Megabytes');
         }
     }

@@ -21,7 +21,7 @@
  * @returns {string}
  */
 export declare function fromParamSet(o: {
-    [key: string]: Array<string>;
+    [key: string]: string[];
 }): string;
 /** toParamSet parses a query string into an object with
  *  arrays of values for the values. I.e.
@@ -45,7 +45,7 @@ export declare function fromParamSet(o: {
  * @returns {Object}
  */
 export declare function toParamSet(s: string): {
-    [key: string]: Array<string>;
+    [key: string]: string[];
 };
 /** fromObject takes an object and encodes it into a query string.
  *

@@ -35,11 +35,11 @@
  * @param {Object} o The object to encode.
  * @returns {string}
  */
-export function fromParamSet(o: { [key: string]: Array<string> }): string {
+export function fromParamSet(o: { [key: string]: string[] }): string {
   if (!o) {
     return '';
   }
-  const ret: Array<string> = [];
+  const ret: string[] = [];
   const keys = Object.keys(o).sort();
   keys.forEach(key => {
     o[key].forEach(value => {
@@ -70,13 +70,13 @@ export function fromParamSet(o: { [key: string]: Array<string> }): string {
  * @param {string} s The query string to decode.
  * @returns {Object}
  */
-export function toParamSet(s: string): { [key: string]: Array<string> } {
+export function toParamSet(s: string): { [key: string]: string[] } {
   s = s || '';
-  const ret: { [key: string]: Array<string> } = {};
+  const ret: { [key: string]: string[] } = {};
   const vars = s.split('&');
-  for (let i = 0; i < vars.length; i++) {
-    const pair = vars[i].split('=', 2);
-    if (pair.length == 2) {
+  for (const v of vars) {
+    const pair = v.split('=', 2);
+    if (pair.length === 2) {
       const key = decodeURIComponent(pair[0]);
       const value = decodeURIComponent(pair[1]);
       if (ret.hasOwnProperty(key)) {
@@ -97,7 +97,7 @@ export function toParamSet(s: string): { [key: string]: Array<string> } {
  * @return {string}
  */
 export function fromObject(o: any): string {
-  const ret: Array<string> = [];
+  const ret: string[] = [];
   Object.keys(o)
     .sort()
     .forEach(key => {
@@ -163,18 +163,18 @@ export function toObject(
   s: string,
   target: { [key: string]: any }
 ): { [key: string]: number | boolean | string | any[] | object } {
-  var target = target || {};
+  target = target || {};
   const ret: { [key: string]: any } = {};
   const vars = s.split('&');
-  for (let i = 0; i < vars.length; i++) {
-    const pair = vars[i].split('=', 2);
-    if (pair.length == 2) {
+  for (const v of vars) {
+    const pair = v.split('=', 2);
+    if (pair.length === 2) {
       const key = decodeURIComponent(pair[0]);
       const value = decodeURIComponent(pair[1]);
       if (target.hasOwnProperty(key)) {
         switch (typeof target[key]) {
           case 'boolean':
-            ret[key] = value == 'true';
+            ret[key] = value === 'true';
             break;
           case 'number':
             ret[key] = Number(value);

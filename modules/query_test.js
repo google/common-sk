@@ -56,7 +56,6 @@ describe('Test query encoding and decoding functions.', () => {
             a: 2.0,
             b: true,
             c: 'foo bar baz',
-            //d: 'default',
             e: ['foo bar', '2'],
             d: ['foo'],
             f: { a: 2.0, b: 'foo bar', c: ['a', 'b'] }
