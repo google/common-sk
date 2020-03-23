@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { $, $$, findParent } from './dom.js';
+import { $, $$, findParent } from './dom';
 
 const container = document.createElement('div');
 document.body.appendChild(container);
