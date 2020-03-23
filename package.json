@@ -7,7 +7,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "test": "npx karma start --single-run --browsers=ChromeHeadlessCustom",
-    "build:ci": "npm ci && npm run clean && npm run test"
+    "lint": "npx tslint -c tslint.json 'src/**/*.ts'",
+    "build:ci": "npm ci && npm lint && npm run clean && npm run test"
   },
   "main": "index.js",
   "license": "Apache-2.0",
