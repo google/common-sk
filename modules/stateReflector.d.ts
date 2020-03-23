@@ -1,3 +1,4 @@
+import * as object from './object';
 /** Track the state of an object and reflect it to and from the URL.
  *
  * @example
@@ -27,9 +28,5 @@
  * @returns {function} A function to call when state has changed and needs to be reflected
  *   to the URL.
  */
-export declare function stateReflector(getState: () => {
-    [key: string]: number | boolean | string | any[] | object;
-}, setState: (o: {
-    [key: string]: number | boolean | string | any[] | object;
-}) => void): () => void;
+export declare function stateReflector(getState: () => object.HintableObject, setState: (o: object.HintableObject) => void): () => void;
 //# sourceMappingURL=stateReflector.d.ts.map

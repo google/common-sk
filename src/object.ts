@@ -17,6 +17,13 @@
  */
 import { fromObject } from './query';
 
+// Hintable is the set of types that we can de/serialize with hints.
+export type Hintable = number | boolean | string | any[] | object;
+
+// HintableObject is any object with strings for keys and only contains Hintable
+// values.
+export type HintableObject = { [key: string]: Hintable };
+
 /** @method deepCopy
  *  @param {Object} object - The object to make a copy of.
  *  @returns {Object}
@@ -31,10 +38,7 @@ export function deepCopy(o: any): any {
  * @param {(number|boolean|string|Array|Object)} b
  * @returns {boolean} True if the arguments are equal.
  */
-export function equals(
-  a: number | boolean | string | any[] | object,
-  b: number | boolean | string | any[] | object
-) {
+export function equals(a: Hintable, b: Hintable) {
   if (typeof a !== typeof b) {
     return false;
   }
@@ -64,11 +68,8 @@ export function equals(
  * @returns {Object}
  *
  */
-export function getDelta(
-  o: { [key: string]: number | boolean | string | any[] | object },
-  d: { [key: string]: number | boolean | string | any[] | object }
-) {
-  const ret: { [key: string]: number | boolean | string | any[] | object } = {};
+export function getDelta(o: HintableObject, d: HintableObject) {
+  const ret: HintableObject = {};
   Object.keys(o).forEach(key => {
     if (!equals(o[key], d[key])) {
       ret[key] = o[key];
@@ -84,11 +85,8 @@ export function getDelta(
  * @returns {Object}
  *
  */
-export function applyDelta(
-  delta: { [key: string]: number | boolean | string | any[] | object },
-  o: { [key: string]: number | boolean | string | any[] | object }
-) {
-  const ret: { [key: string]: number | boolean | string | any[] | object } = {};
+export function applyDelta(delta: HintableObject, o: HintableObject) {
+  const ret: HintableObject = {};
   Object.keys(o).forEach(key => {
     if (delta.hasOwnProperty(key)) {
       ret[key] = deepCopy(delta[key]);

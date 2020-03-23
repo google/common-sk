@@ -1,3 +1,6 @@
+declare type ParamSet = {
+    [key: string]: string[];
+};
 /** @module common-sk/modules/query
  *  @descripiton Utilities for working with URL query strings.
  */
@@ -20,9 +23,7 @@
  * @param {Object} o The object to encode.
  * @returns {string}
  */
-export declare function fromParamSet(o: {
-    [key: string]: string[];
-}): string;
+export declare function fromParamSet(o: ParamSet): string;
 /** toParamSet parses a query string into an object with
  *  arrays of values for the values. I.e.
  *
@@ -42,11 +43,9 @@ export declare function fromParamSet(o: {
  * This function handles URI decoding of both keys and values.
  *
  * @param {string} s The query string to decode.
- * @returns {Object}
+ * @returns {ParamSet}
  */
-export declare function toParamSet(s: string): {
-    [key: string]: string[];
-};
+export declare function toParamSet(s: string): ParamSet;
 /** fromObject takes an object and encodes it into a query string.
  *
  * The reverse of this function is toObject.
@@ -101,7 +100,7 @@ export declare function fromObject(o: any): string;
 export declare function toObject(s: string, target: {
     [key: string]: any;
 }): {
-    [key: string]: number | boolean | string | any[] | object;
+    [key: string]: any;
 };
 /** splitAmp returns the given query string as a newline
  *   separated list of key value pairs. If sepator is not
@@ -112,4 +111,5 @@ export declare function toObject(s: string, target: {
  *   @returns {string}
  */
 export declare function splitAmp(queryStr?: string, separator?: string): string;
+export {};
 //# sourceMappingURL=query.d.ts.map

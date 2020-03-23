@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ParamSet mirrors infra/go/paramtools ParamSet.
+type ParamSet = { [key: string]: string[] };
+
 /** @module common-sk/modules/query
  *  @descripiton Utilities for working with URL query strings.
  */
@@ -35,7 +38,7 @@
  * @param {Object} o The object to encode.
  * @returns {string}
  */
-export function fromParamSet(o: { [key: string]: string[] }): string {
+export function fromParamSet(o: ParamSet): string {
   if (!o) {
     return '';
   }
@@ -68,11 +71,11 @@ export function fromParamSet(o: { [key: string]: string[] }): string {
  * This function handles URI decoding of both keys and values.
  *
  * @param {string} s The query string to decode.
- * @returns {Object}
+ * @returns {ParamSet}
  */
-export function toParamSet(s: string): { [key: string]: string[] } {
+export function toParamSet(s: string): ParamSet {
   s = s || '';
-  const ret: { [key: string]: string[] } = {};
+  const ret: ParamSet = {};
   const vars = s.split('&');
   for (const v of vars) {
     const pair = v.split('=', 2);
@@ -162,7 +165,7 @@ export function fromObject(o: any): string {
 export function toObject(
   s: string,
   target: { [key: string]: any }
-): { [key: string]: number | boolean | string | any[] | object } {
+): { [key: string]: any } {
   target = target || {};
   const ret: { [key: string]: any } = {};
   const vars = s.split('&');

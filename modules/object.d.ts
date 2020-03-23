@@ -1,3 +1,7 @@
+export declare type Hintable = number | boolean | string | any[] | object;
+export declare type HintableObject = {
+    [key: string]: Hintable;
+};
 /** @method deepCopy
  *  @param {Object} object - The object to make a copy of.
  *  @returns {Object}
@@ -9,7 +13,7 @@ export declare function deepCopy(o: any): any;
  * @param {(number|boolean|string|Array|Object)} b
  * @returns {boolean} True if the arguments are equal.
  */
-export declare function equals(a: number | boolean | string | any[] | object, b: number | boolean | string | any[] | object): boolean;
+export declare function equals(a: Hintable, b: Hintable): boolean;
 /** Returns an object with only values that are in o that are different from d.
  *
  * Only works shallowly, i.e. only diffs on the attributes of
@@ -24,13 +28,7 @@ export declare function equals(a: number | boolean | string | any[] | object, b:
  * @returns {Object}
  *
  */
-export declare function getDelta(o: {
-    [key: string]: number | boolean | string | any[] | object;
-}, d: {
-    [key: string]: number | boolean | string | any[] | object;
-}): {
-    [key: string]: string | number | boolean | object | any[];
-};
+export declare function getDelta(o: HintableObject, d: HintableObject): HintableObject;
 /** Returns a copy of object o with values from delta if they exist.
  *
  * @param {Object} delta - A delta object as returned from 'getDelta'.
@@ -38,11 +36,5 @@ export declare function getDelta(o: {
  * @returns {Object}
  *
  */
-export declare function applyDelta(delta: {
-    [key: string]: number | boolean | string | any[] | object;
-}, o: {
-    [key: string]: number | boolean | string | any[] | object;
-}): {
-    [key: string]: string | number | boolean | object | any[];
-};
+export declare function applyDelta(delta: HintableObject, o: HintableObject): HintableObject;
 //# sourceMappingURL=object.d.ts.map

@@ -65,7 +65,7 @@ export function fromParamSet(o) {
  * This function handles URI decoding of both keys and values.
  *
  * @param {string} s The query string to decode.
- * @returns {Object}
+ * @returns {ParamSet}
  */
 export function toParamSet(s) {
     s = s || '';

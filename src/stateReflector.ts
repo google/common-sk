@@ -47,10 +47,8 @@ import { DomReady } from './dom';
  *   to the URL.
  */
 export function stateReflector(
-  getState: () => { [key: string]: number | boolean | string | any[] | object },
-  setState: (o: {
-    [key: string]: number | boolean | string | any[] | object;
-  }) => void
+  getState: () => object.HintableObject,
+  setState: (o: object.HintableObject) => void
 ): () => void {
   // The default state of the stateHolder. Used to calculate diffs to state.
   const defaultState = object.deepCopy(getState());
