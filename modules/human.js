@@ -96,7 +96,7 @@ export function diffDate(s, now) {
         now = Date.now();
     }
     const ms = typeof s === 'number' ? s : Date.parse(s);
-    let diff = (ms - Date.now()) / 1000;
+    let diff = (ms - now) / 1000;
     if (diff < 0) {
         diff = -1.0 * diff;
     }

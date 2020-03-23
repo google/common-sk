@@ -60,7 +60,7 @@ describe('The human functions', () => {
     }
     it('should return human-readable duration from strDuration', testStrDuration);
     function testDiffDate() {
-        const now = Date.now();
+        const now = 1584972056 * 1000; // 03/23/2020 @ 2:00pm (UTC)
         const testCases = [
             [0, '0s'],
             [1, '0s'],
@@ -99,11 +99,13 @@ describe('The human functions', () => {
             const diffMs = testCase[0];
             const expected = testCase[1];
             const ms = now + diffMs;
+            // Test the form of diffDate that takes a number.
             assert.equal(human.diffDate(ms, now), expected, 'Input is ' + ms + ', now is ' + now);
-            assert.equal(human.diffDate(new Date(ms).toISOString()), expected, 'Input is ' +
+            // Test the form of diffDate that takes a date string.
+            assert.equal(human.diffDate(new Date(ms).toISOString(), now), expected, 'Input is ' +
                 new Date(ms).toISOString() +
                 ', now is ' +
-                new Date().toISOString());
+                new Date(now).toISOString());
         }
     }
     it('should return human-readable duration from diffDate', testDiffDate);
