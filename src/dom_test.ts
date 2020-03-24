@@ -90,7 +90,10 @@ describe('$$ aka querySelector', () => {
   it('returns a single item', () => {
     const ele = $$('.alpha');
     assert.isFalse(Array.isArray(ele));
-    assert.equal('delta', ele.id);
+    assert.isNotNull(ele);
+    if (ele !== null) {
+      assert.equal('delta', ele.id);
+    }
   });
 });
 

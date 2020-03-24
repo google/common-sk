@@ -35,8 +35,12 @@ export const DomReady = new Promise(resolve => {
  * @returns {Array} Array of DOM Elements that match the CSS selector.
  *
  */
-export const $ = (query: string, ele: Element | Document = document) =>
-  Array.prototype.slice.call(ele.querySelectorAll(query));
+export function $<E extends Element = Element>(
+  query: string,
+  ele: E | Document = document
+): E[] {
+  return Array.prototype.slice.call(ele.querySelectorAll(query));
+}
 
 /** @function $$
  *
@@ -46,8 +50,12 @@ export const $ = (query: string, ele: Element | Document = document) =>
  * @param {Element} ele The Element to start the search from.
  * @returns {Element} The first Element in DOM order that matches the CSS selector.
  */
-export const $$ = (query: string, ele: Element | Document = document) =>
-  ele.querySelector(query);
+export function $$<E extends Element = Element>(
+  query: string,
+  ele: E | Document = document
+): E | null {
+  return ele.querySelector(query);
+}
 
 /**
  * Find the first parent of 'ele' with the given 'nodeName'.
@@ -61,7 +69,10 @@ export const $$ = (query: string, ele: Element | Document = document) =>
  *   findParent(ele, 'DIV')
  *
  */
-export function findParent(ele: Element, nodeName: string) {
+export function findParent(
+  ele: HTMLElement | null,
+  nodeName: string
+): HTMLElement | null {
   while (ele !== null) {
     if (ele.nodeName === nodeName) {
       return ele;

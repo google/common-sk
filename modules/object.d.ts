@@ -13,7 +13,7 @@ export declare function deepCopy(o: any): any;
  * @param {(number|boolean|string|Array|Object)} b
  * @returns {boolean} True if the arguments are equal.
  */
-export declare function equals(a: Hintable, b: Hintable): boolean;
+export declare function equals(a: Hintable, b: Hintable): boolean | undefined;
 /** Returns an object with only values that are in o that are different from d.
  *
  * Only works shallowly, i.e. only diffs on the attributes of

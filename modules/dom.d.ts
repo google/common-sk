@@ -12,7 +12,7 @@ export declare const DomReady: Promise<unknown>;
  * @returns {Array} Array of DOM Elements that match the CSS selector.
  *
  */
-export declare const $: (query: string, ele?: Element | Document) => any;
+export declare function $<E extends Element = Element>(query: string, ele?: E | Document): E[];
 /** @function $$
  *
  * @description Returns the first DOM element that matches the CSS query selector.
@@ -21,7 +21,7 @@ export declare const $: (query: string, ele?: Element | Document) => any;
  * @param {Element} ele The Element to start the search from.
  * @returns {Element} The first Element in DOM order that matches the CSS selector.
  */
-export declare const $$: (query: string, ele?: Element | Document) => Element;
+export declare function $$<E extends Element = Element>(query: string, ele?: E | Document): E | null;
 /**
  * Find the first parent of 'ele' with the given 'nodeName'.
  *
@@ -34,5 +34,5 @@ export declare const $$: (query: string, ele?: Element | Document) => Element;
  *   findParent(ele, 'DIV')
  *
  */
-export declare function findParent(ele: Element, nodeName: string): Element;
+export declare function findParent(ele: Element, nodeName: string): Element | null;
 //# sourceMappingURL=dom.d.ts.map

@@ -4,6 +4,7 @@
     "allowJs": true,
     "sourceMap": true,
     "noImplicitAny": true,
+    "strict": true,
     "module": "ES6",
     "target": "es6",
     "declaration": true,

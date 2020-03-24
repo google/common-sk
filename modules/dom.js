@@ -34,7 +34,9 @@ export const DomReady = new Promise(resolve => {
  * @returns {Array} Array of DOM Elements that match the CSS selector.
  *
  */
-export const $ = (query, ele = document) => Array.prototype.slice.call(ele.querySelectorAll(query));
+export function $(query, ele = document) {
+    return Array.prototype.slice.call(ele.querySelectorAll(query));
+}
 /** @function $$
  *
  * @description Returns the first DOM element that matches the CSS query selector.
@@ -43,7 +45,9 @@ export const $ = (query, ele = document) => Array.prototype.slice.call(ele.query
  * @param {Element} ele The Element to start the search from.
  * @returns {Element} The first Element in DOM order that matches the CSS selector.
  */
-export const $$ = (query, ele = document) => ele.querySelector(query);
+export function $$(query, ele = document) {
+    return ele.querySelector(query);
+}
 /**
  * Find the first parent of 'ele' with the given 'nodeName'.
  *
