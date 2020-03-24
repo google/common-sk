@@ -28,8 +28,6 @@ describe('object functions', () => {
         assert.deepEqual(second, {});
         test({ a: 'foo' }, { a: 'bar' }, { a: 'foo' });
         test({ a: 'foo', b: 'bar' }, { a: true, c: 'bar' }, { a: 'foo', b: 'bar' });
-        test({ a: undefined, b: NaN, c: null }, { a: true, b: true, c: true }, { a: undefined, b: NaN, c: null });
-        test({ a: undefined, b: NaN, c: false }, { a: null, b: null, c: null }, { a: undefined, b: NaN, c: false });
     }
     function testApplyDelta() {
         const test = (delta, o, expected) => {
@@ -46,7 +44,6 @@ describe('object functions', () => {
         test({ a: 'foo' }, { a: 'bar', b: 'baz' }, { a: 'foo', b: 'baz' });
         test({ a: 'foo', b: 'baz' }, { a: 'bar' }, { a: 'foo' });
         test({ a: 'foo', b: 'bar' }, { a: true, c: 'bar' }, { a: 'foo', c: 'bar' });
-        test({ b: NaN, c: false }, { a: null, b: null, c: null }, { a: null, b: null, c: false });
     }
     function testEquals() {
         assert.isTrue(object.equals(1, 1));

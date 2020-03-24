@@ -34,5 +34,5 @@ export declare function $$<E extends Element = Element>(query: string, ele?: E |
  *   findParent(ele, 'DIV')
  *
  */
-export declare function findParent(ele: Element, nodeName: string): Element | null;
+export declare function findParent(ele: HTMLElement | null, nodeName: string): HTMLElement | null;
 //# sourceMappingURL=dom.d.ts.map

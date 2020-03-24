@@ -89,7 +89,6 @@ describe('Test query encoding and decoding functions.', () => {
   }
 
   function testDecodeToParamSet() {
-    assert.deepEqual(query.toParamSet(undefined), {});
     assert.deepEqual(query.toParamSet(''), {});
     assert.deepEqual(query.toParamSet('a=2'), { a: ['2'] });
     assert.deepEqual(query.toParamSet('a=2&a=3'), { a: ['2', '3'] });
@@ -101,7 +100,6 @@ describe('Test query encoding and decoding functions.', () => {
   }
 
   function testEncodeFromParamSet() {
-    assert.deepEqual(query.fromParamSet(undefined), '');
     assert.deepEqual(query.fromParamSet({}), '');
     assert.deepEqual(query.fromParamSet({ a: ['2'] }), 'a=2');
     assert.deepEqual(query.fromParamSet({ a: ['2', '3'] }), 'a=2&a=3');
