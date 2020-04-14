@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./modules/",
-    "allowJs": true,
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "strict": true,
-    "module": "ES6",
-    "target": "es6",
+    "allowJs": false,
     "declaration": true,
     "declarationMap": true,
+    "module": "ES6",
+    "noImplicitAny": true,
+    "outDir": "./modules/",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6",
     "types": ["chai", "mocha"]
   },
   "include": ["./src/*"]
