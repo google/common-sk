@@ -11,11 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/** @module common-sk/modules/query
- *  @descripiton Utilities for working with URL query strings.
- */
-
 /** fromParamSet encodes an object of the form:
  * <pre>
  * {
@@ -36,19 +31,18 @@
  * @returns {string}
  */
 export function fromParamSet(o) {
-  if (!o) {
-    return "";
-  }
-  var ret = [];
-  var keys = Object.keys(o).sort();
-  keys.forEach(function(key) {
-    o[key].forEach(function(value) {
-      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    if (!o) {
+        return '';
+    }
+    const ret = [];
+    const keys = Object.keys(o).sort();
+    keys.forEach((key) => {
+        o[key].forEach((value) => {
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+        });
     });
-  });
-  return ret.join('&');
+    return ret.join('&');
 }
-
 /** toParamSet parses a query string into an object with
  *  arrays of values for the values. I.e.
  *
@@ -68,52 +62,53 @@ export function fromParamSet(o) {
  * This function handles URI decoding of both keys and values.
  *
  * @param {string} s The query string to decode.
- * @returns {Object}
+ * @returns {ParamSet}
  */
 export function toParamSet(s) {
-  s = s || '';
-  var ret = {};
-  var vars = s.split("&");
-  for (var i=0; i<vars.length; i++) {
-    var pair = vars[i].split("=", 2);
-    if (pair.length == 2) {
-      var key = decodeURIComponent(pair[0]);
-      var value = decodeURIComponent(pair[1]);
-      if (ret.hasOwnProperty(key)) {
-        ret[key].push(value);
-      } else {
-        ret[key] = [value];
-      }
+    s = s || '';
+    const ret = {};
+    const vars = s.split('&');
+    for (const v of vars) {
+        const pair = v.split('=', 2);
+        if (pair.length === 2) {
+            const key = decodeURIComponent(pair[0]);
+            const value = decodeURIComponent(pair[1]);
+            if (ret.hasOwnProperty(key)) {
+                ret[key].push(value);
+            }
+            else {
+                ret[key] = [value];
+            }
+        }
     }
-  }
-  return ret;
+    return ret;
 }
-
-
 /** fromObject takes an object and encodes it into a query string.
  *
  * The reverse of this function is toObject.
  *
- * @param {Object} o The object to encode.
- * @return {string}
+ * @param o - The object to encode.
  */
 export function fromObject(o) {
-  var ret = [];
-  Object.keys(o).sort().forEach(function(key) {
-    if (Array.isArray(o[key])) {
-      o[key].forEach(function(value) {
-        ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-      })
-    } else if (typeof(o[key]) == 'object') {
-      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(fromObject(o[key])));
-    } else {
-      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(o[key]));
-    }
-  });
-  return ret.join('&');
+    const ret = [];
+    Object.keys(o)
+        .sort()
+        .forEach((key) => {
+        const value = o[key];
+        if (Array.isArray(value)) {
+            value.forEach((v) => {
+                ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(v)}`);
+            });
+        }
+        else if (typeof value === 'object') {
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(fromObject(value))}`);
+        }
+        else {
+            ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+        }
+    });
+    return ret.join('&');
 }
-
-
 /** toObject decodes a query string into an object.
  *
  * Uses the 'target' as a source for hinting on the types of the values.
@@ -153,58 +148,59 @@ export function fromObject(o) {
  *
  * Only Number, String, Boolean, Object, and Array of String hints are supported.
  *
- * @param {string} s The query string.
- * @param {Object} target The object that contains the type hints.
- * @returns {Object}
+ * @param s - The query string.
+ * @param target - The object that contains the type hints.
  */
 export function toObject(s, target) {
-  var target = target || {};
-  var ret = {};
-  var vars = s.split("&");
-  for (var i=0; i<vars.length; i++) {
-    var pair = vars[i].split("=", 2);
-    if (pair.length == 2) {
-      var key = decodeURIComponent(pair[0]);
-      var value = decodeURIComponent(pair[1]);
-      if (target.hasOwnProperty(key)) {
-        switch (typeof(target[key])) {
-          case 'boolean':
-            ret[key] = value=="true";
-            break;
-          case 'number':
-            ret[key] = Number(value);
-            break;
-          case 'object': // Arrays report as 'object' to typeof.
-            if (Array.isArray(target[key])) {
-              var r = ret[key] || [];
-              r.push(value);
-              ret[key] = r;
-            } else {
-              ret[key] = toObject(value, target[key]);
+    target = target || {};
+    const ret = {};
+    const vars = s.split('&');
+    for (const v of vars) {
+        const pair = v.split('=', 2);
+        if (pair.length === 2) {
+            const key = decodeURIComponent(pair[0]);
+            const value = decodeURIComponent(pair[1]);
+            if (target.hasOwnProperty(key)) {
+                const targetValue = target[key];
+                switch (typeof targetValue) {
+                    case 'boolean':
+                        ret[key] = value === 'true';
+                        break;
+                    case 'number':
+                        ret[key] = Number(value);
+                        break;
+                    case 'object': // Arrays report as 'object' to typeof.
+                        if (Array.isArray(targetValue)) {
+                            const r = ret[key] || [];
+                            r.push(value);
+                            ret[key] = r;
+                        }
+                        else {
+                            ret[key] = toObject(value, targetValue);
+                        }
+                        break;
+                    case 'string':
+                        ret[key] = value;
+                        break;
+                    default:
+                        ret[key] = value;
+                }
             }
-            break;
-          case 'string':
-            ret[key] = value;
-            break;
-          default:
-            ret[key] = value;
+            else {
+                ret[key] = value;
+            }
         }
-      } else {
-        ret[key] = value;
-      }
     }
-  }
-  return ret;
+    return ret;
 }
-
 /** splitAmp returns the given query string as a newline
-*   separated list of key value pairs. If sepator is not
-*   provided newline will be used.
-*
-*   @param {string} [queryStr=''] A query string.
-*   @param {string} [separator='\n'] The separator to use when joining.
-*   @returns {string}
-*/
+ *   separated list of key value pairs. If sepator is not
+ *   provided newline will be used.
+ *
+ *   @param [queryStr=''] A query string.
+ *   @param [separator='\n'] The separator to use when joining.
+ */
 export function splitAmp(queryStr = '', separator = '\n') {
-  return queryStr.split('&').join(separator);
-};
+    return queryStr.split('&').join(separator);
+}
+//# sourceMappingURL=query.js.map

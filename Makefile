@@ -1,4 +1,5 @@
 build: package-lock.json
+	tsc
 	npx webpack --mode=development
 
 production: package-lock.json
@@ -10,9 +11,11 @@ serve: package-lock.json
 demos: package-lock.json
 	npx webpack --mode=development
 
+lint:
+	npm run lint
+
 test:
-	npm ci
-	npx karma start --single-run --browsers=ChromeHeadlessCustom
+	npm test
 
 continuous: package-lock.json
 	# Setup for continuous testing when ssh'd into a machine.

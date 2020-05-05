@@ -16,8 +16,12 @@ const { glob } = require('glob');
 const commonBuilder = require('pulito');
 
 module.exports = (env, argv) => {
-  let config = commonBuilder(env, argv, __dirname);
+  const config = commonBuilder(env, argv, __dirname);
 
   config.entry.tests = glob.sync('./modules/**/*_test.js');
+
+  // Enable sourcemaps for debugging webpack's output.
+  config.devtool = 'source-map';
+
   return config;
-}
+};

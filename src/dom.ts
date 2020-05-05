@@ -11,20 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 /** @module common-sk/modules/dom */
 /**
  * A Promise that resolves when DOMContentLoaded has fired.
  */
 export const DomReady = new Promise((resolve) => {
-    if (document.readyState !== 'loading') {
-        // If readyState is already past loading then
-        // DOMContentLoaded has already fired, so just resolve.
-        resolve();
-    }
-    else {
-        document.addEventListener('DOMContentLoaded', resolve);
-    }
+  if (document.readyState !== 'loading') {
+    // If readyState is already past loading then
+    // DOMContentLoaded has already fired, so just resolve.
+    resolve();
+  } else {
+    document.addEventListener('DOMContentLoaded', resolve);
+  }
 });
+
 /** @function $
  *
  * @description Returns a real JS array of DOM elements that match the CSS selector.
@@ -34,9 +35,13 @@ export const DomReady = new Promise((resolve) => {
  * @returns Array of DOM Elements that match the CSS selector.
  *
  */
-export function $(query, ele = document) {
-    return Array.from(ele.querySelectorAll(query));
+export function $<E extends Element = Element>(
+  query: string,
+  ele: Element | Document = document
+): E[] {
+  return Array.from(ele.querySelectorAll<E>(query));
 }
+
 /** @function $$
  *
  * @description Returns the first DOM element that matches the CSS query selector.
@@ -45,9 +50,13 @@ export function $(query, ele = document) {
  * @param ele The Element to start the search from.
  * @returns The first Element in DOM order that matches the CSS selector.
  */
-export function $$(query, ele = document) {
-    return ele.querySelector(query);
+export function $$<E extends Element = Element>(
+  query: string,
+  ele: Element | Document = document
+): E | null {
+  return ele.querySelector(query);
 }
+
 /**
  * Find the first parent of 'ele' with the given 'nodeName'.
  *
@@ -60,15 +69,19 @@ export function $$(query, ele = document) {
  *   findParent(ele, 'DIV')
  *
  */
-export function findParent(ele, nodeName) {
-    while (ele !== null) {
-        if (ele.nodeName === nodeName) {
-            return ele;
-        }
-        ele = ele.parentElement;
+export function findParent(
+  ele: HTMLElement | null,
+  nodeName: string
+): HTMLElement | null {
+  while (ele !== null) {
+    if (ele.nodeName === nodeName) {
+      return ele;
     }
-    return null;
+    ele = ele.parentElement;
+  }
+  return null;
 }
+
 /**
  * Find the first parent of 'ele' with the given 'nodeName'. Just like findParent, but TypeScript typesafe.
  *
@@ -81,13 +94,15 @@ export function findParent(ele, nodeName) {
  *   findParentSafe(ele, 'div')
  *
  */
-export function findParentSafe(ele, nodeName) {
-    while (ele !== null) {
-        if (ele.nodeName.toLowerCase() === nodeName) {
-            return ele;
-        }
-        ele = ele.parentElement;
+export function findParentSafe<K extends keyof HTMLElementTagNameMap>(
+  ele: HTMLElement | null,
+  nodeName: K
+): HTMLElementTagNameMap[K] | null {
+  while (ele !== null) {
+    if (ele.nodeName.toLowerCase() === nodeName) {
+      return ele as HTMLElementTagNameMap[K];
     }
-    return null;
+    ele = ele.parentElement;
+  }
+  return null;
 }
-//# sourceMappingURL=dom.js.map
