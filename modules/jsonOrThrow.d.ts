@@ -1,4 +1,10 @@
 /** @module common-sk/modules/jsonOrThrow */
+export declare class JsonOrThrowError extends Error {
+    message: string;
+    resp: Response;
+    status: number;
+    constructor(resp: Response);
+}
 /** Helper function when making fetch() requests.
  *
  * Checks if the response is ok and converts it to JSON, otherwise it throws.
@@ -15,8 +21,7 @@
  *      }
  *    });
  *
- * @returns {Promise}
- * @throws {Object} with status, resp, and message elements. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
+ * @throws A JsonOrThrowErrr. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
  *         for more detail on reading resp (e.g. resp.text()).
  */
 export declare function jsonOrThrow(resp: Response): Promise<any>;

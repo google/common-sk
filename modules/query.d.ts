@@ -1,9 +1,11 @@
-declare type ParamSet = {
-    [key: string]: string[];
-};
 /** @module common-sk/modules/query
  *  @descripiton Utilities for working with URL query strings.
  */
+import { HintableObject } from './hintable';
+/** ParamSet mirrors //infra/go/paramtools ParamSet. */
+declare type ParamSet = {
+    [key: string]: string[];
+};
 /** fromParamSet encodes an object of the form:
  * <pre>
  * {
@@ -50,10 +52,9 @@ export declare function toParamSet(s: string): ParamSet;
  *
  * The reverse of this function is toObject.
  *
- * @param {Object} o The object to encode.
- * @return {string}
+ * @param o - The object to encode.
  */
-export declare function fromObject(o: any): string;
+export declare function fromObject(o: HintableObject): string;
 /** toObject decodes a query string into an object.
  *
  * Uses the 'target' as a source for hinting on the types of the values.
@@ -93,22 +94,16 @@ export declare function fromObject(o: any): string;
  *
  * Only Number, String, Boolean, Object, and Array of String hints are supported.
  *
- * @param {string} s The query string.
- * @param {Object} target The object that contains the type hints.
- * @returns {Object}
+ * @param s - The query string.
+ * @param target - The object that contains the type hints.
  */
-export declare function toObject(s: string, target: {
-    [key: string]: any;
-}): {
-    [key: string]: any;
-};
+export declare function toObject(s: string, target: HintableObject): HintableObject;
 /** splitAmp returns the given query string as a newline
  *   separated list of key value pairs. If sepator is not
  *   provided newline will be used.
  *
- *   @param {string} [queryStr=''] A query string.
- *   @param {string} [separator='\n'] The separator to use when joining.
- *   @returns {string}
+ *   @param [queryStr=''] A query string.
+ *   @param [separator='\n'] The separator to use when joining.
  */
 export declare function splitAmp(queryStr?: string, separator?: string): string;
 export {};

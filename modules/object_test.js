@@ -56,5 +56,14 @@ describe('object functions', () => {
         testApplyDelta();
         testEquals();
     });
+    it('should be able to make deep copies of objects', () => {
+        const a = {
+            a: 1,
+            b: 'two',
+            c: ['three'],
+            d: { four: '' },
+        };
+        assert.deepEqual(a, object.deepCopy(a));
+    });
 });
 //# sourceMappingURL=object_test.js.map

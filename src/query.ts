@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// ParamSet mirrors infra/go/paramtools ParamSet.
-type ParamSet = { [key: string]: string[] };
-
 /** @module common-sk/modules/query
  *  @descripiton Utilities for working with URL query strings.
  */
+
+import { HintableObject } from './hintable';
+
+/** ParamSet mirrors //infra/go/paramtools ParamSet. */
+type ParamSet = { [key: string]: string[] };
 
 /** fromParamSet encodes an object of the form:
  * <pre>
@@ -44,8 +46,8 @@ export function fromParamSet(o: ParamSet): string {
   }
   const ret: string[] = [];
   const keys = Object.keys(o).sort();
-  keys.forEach(key => {
-    o[key].forEach(value => {
+  keys.forEach((key) => {
+    o[key].forEach((value) => {
       ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
   });
@@ -96,24 +98,24 @@ export function toParamSet(s: string): ParamSet {
  *
  * The reverse of this function is toObject.
  *
- * @param {Object} o The object to encode.
- * @return {string}
+ * @param o - The object to encode.
  */
-export function fromObject(o: any): string {
+export function fromObject(o: HintableObject): string {
   const ret: string[] = [];
   Object.keys(o)
     .sort()
-    .forEach(key => {
-      if (Array.isArray(o[key])) {
-        o[key].forEach((value: string) => {
-          ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    .forEach((key) => {
+      const value = o[key];
+      if (Array.isArray(value)) {
+        value.forEach((v: string) => {
+          ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(v)}`);
         });
-      } else if (typeof o[key] === 'object') {
+      } else if (typeof value === 'object') {
         ret.push(
-          `${encodeURIComponent(key)}=${encodeURIComponent(fromObject(o[key]))}`
+          `${encodeURIComponent(key)}=${encodeURIComponent(fromObject(value))}`
         );
       } else {
-        ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(o[key])}`);
+        ret.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
       }
     });
   return ret.join('&');
@@ -158,14 +160,10 @@ export function fromObject(o: any): string {
  *
  * Only Number, String, Boolean, Object, and Array of String hints are supported.
  *
- * @param {string} s The query string.
- * @param {Object} target The object that contains the type hints.
- * @returns {Object}
+ * @param s - The query string.
+ * @param target - The object that contains the type hints.
  */
-export function toObject(
-  s: string,
-  target: { [key: string]: any }
-): { [key: string]: any } {
+export function toObject(s: string, target: HintableObject): HintableObject {
   target = target || {};
   const ret: { [key: string]: any } = {};
   const vars = s.split('&');
@@ -175,7 +173,8 @@ export function toObject(
       const key = decodeURIComponent(pair[0]);
       const value = decodeURIComponent(pair[1]);
       if (target.hasOwnProperty(key)) {
-        switch (typeof target[key]) {
+        const targetValue = target[key];
+        switch (typeof targetValue) {
           case 'boolean':
             ret[key] = value === 'true';
             break;
@@ -183,12 +182,12 @@ export function toObject(
             ret[key] = Number(value);
             break;
           case 'object': // Arrays report as 'object' to typeof.
-            if (Array.isArray(target[key])) {
+            if (Array.isArray(targetValue)) {
               const r = ret[key] || [];
               r.push(value);
               ret[key] = r;
             } else {
-              ret[key] = toObject(value, target[key]);
+              ret[key] = toObject(value, targetValue);
             }
             break;
           case 'string':
@@ -209,9 +208,8 @@ export function toObject(
  *   separated list of key value pairs. If sepator is not
  *   provided newline will be used.
  *
- *   @param {string} [queryStr=''] A query string.
- *   @param {string} [separator='\n'] The separator to use when joining.
- *   @returns {string}
+ *   @param [queryStr=''] A query string.
+ *   @param [separator='\n'] The separator to use when joining.
  */
 export function splitAmp(queryStr = '', separator = '\n') {
   return queryStr.split('&').join(separator);

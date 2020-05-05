@@ -8,11 +8,10 @@ export declare const GB: number;
 export declare const TB: number;
 /** @constant {number} */
 export declare const PB: number;
-/** Left pad a number with 0's.
+/** Left pad a number with 0s.
  *
- * @param {number} num - The number to pad.
- * @param {number} size - The number of digits to pad out to.
- * @returns {string}
+ * @param num - The number to pad.
+ * @param size - The number of digits to pad out to.
  */
 export declare function pad(num: number, size: number): string;
 /**
@@ -20,8 +19,7 @@ export declare function pad(num: number, size: number): string;
  * For example, 'strDuration(123)' would return "2m 3s".
  * Negative seconds is treated the same as positive seconds.
  *
- * @param {number} seconds - The duration.
- * @returns {string}
+ * @param seconds - The duration.
  */
 export declare function strDuration(seconds: number): string;
 /**
@@ -33,10 +31,9 @@ export declare function strDuration(seconds: number): string;
  * For example, a difference of 123 seconds between 's' and the current time
  * would return "2m".
  *
- * @param {Object} milliseconds - The time in milliseconds or a time string.
- * @param {Date} now - The time to diff against, if not supplied then the diff
+ * @param milliseconds - The time in milliseconds or a time string.
+ * @param now - The time to diff against, if not supplied then the diff
  * is done against Date.now().
- * @returns {string}
  */
 export declare function diffDate(s: number | string, now?: number): string;
 /**
@@ -51,15 +48,13 @@ export declare function diffDate(s: number | string, now?: number): string;
  * // returns "5 GB"
  * bytes(5321, MB)
  *
- * @param {number} b - The number of bytes in units 'unit'.
- * @param {number} unit - The number of bytes per unit.
- * @returns {string}
+ * @param b - The number of bytes in units 'unit'.
+ * @param unit - The number of bytes per unit.
  */
 export declare function bytes(b: number, unit?: number): string;
 /** localeTime formats the provided Date object in locale time and appends the timezone to the end.
  *
- * @param {Date} date
- * @returns {string}
+ * @param date The date to format.
  */
 export declare function localeTime(date: Date): string;
 //# sourceMappingURL=human.d.ts.map

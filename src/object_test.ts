@@ -13,15 +13,16 @@
 // limitations under the License.
 
 import * as object from './object';
+import { HintableObject } from './hintable';
 
 const assert = chai.assert;
 
 describe('object functions', () => {
   function testGetDelta() {
     const test = (
-      o: { [key: string]: number | boolean | string | any[] | object },
-      d: { [key: string]: number | boolean | string | any[] | object },
-      expected: { [key: string]: number | boolean | string | any[] | object }
+      o: HintableObject,
+      d: HintableObject,
+      expected: HintableObject
     ) => {
       assert.deepEqual(object.getDelta(o, d), expected);
     };
@@ -39,9 +40,9 @@ describe('object functions', () => {
 
   function testApplyDelta() {
     const test = (
-      delta: { [key: string]: number | boolean | string | any[] | object },
-      o: { [key: string]: number | boolean | string | any[] | object },
-      expected: { [key: string]: number | boolean | string | any[] | object }
+      delta: HintableObject,
+      o: HintableObject,
+      expected: HintableObject
     ) => {
       assert.deepEqual(object.applyDelta(delta, o), expected);
     };
@@ -69,5 +70,15 @@ describe('object functions', () => {
     testGetDelta();
     testApplyDelta();
     testEquals();
+  });
+
+  it('should be able to make deep copies of objects', () => {
+    const a = {
+      a: 1,
+      b: 'two',
+      c: ['three'],
+      d: { four: '' },
+    };
+    assert.deepEqual(a, object.deepCopy(a));
   });
 });

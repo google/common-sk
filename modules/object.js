@@ -16,17 +16,15 @@
  */
 import { fromObject } from './query';
 /** @method deepCopy
- *  @param {Object} object - The object to make a copy of.
- *  @returns {Object}
+ *  @param object - The object to make a copy of.
  */
 export function deepCopy(o) {
     return JSON.parse(JSON.stringify(o));
 }
 /** Returns true if a and b are equal, covers Boolean, Number, String and Arrays and Objects.
  *
- * @param {(number|boolean|string|Array|Object)} a
- * @param {(number|boolean|string|Array|Object)} b
- * @returns {boolean} True if the arguments are equal.
+ * @param a The Hintable type object to compare.
+ * @param b The Hintable type object to compare.
  */
 export function equals(a, b) {
     if (typeof a !== typeof b) {
@@ -37,11 +35,12 @@ export function equals(a, b) {
         return a === b;
     }
     if (ta === 'object') {
-        if (Array.isArray(ta)) {
+        if (Array.isArray(a)) {
             return JSON.stringify(a) === JSON.stringify(b);
         }
         return fromObject(a) === fromObject(b);
     }
+    return false;
 }
 /** Returns an object with only values that are in o that are different from d.
  *
@@ -59,7 +58,7 @@ export function equals(a, b) {
  */
 export function getDelta(o, d) {
     const ret = {};
-    Object.keys(o).forEach(key => {
+    Object.keys(o).forEach((key) => {
         if (!equals(o[key], d[key])) {
             ret[key] = o[key];
         }
@@ -75,7 +74,7 @@ export function getDelta(o, d) {
  */
 export function applyDelta(delta, o) {
     const ret = {};
-    Object.keys(o).forEach(key => {
+    Object.keys(o).forEach((key) => {
         if (delta.hasOwnProperty(key)) {
             ret[key] = deepCopy(delta[key]);
         }

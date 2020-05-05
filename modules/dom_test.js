@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { $, $$, findParent } from './dom';
+import { $, $$, findParent, findParentSafe } from './dom';
 const container = document.createElement('div');
 document.body.appendChild(container);
 beforeEach(() => {
@@ -29,8 +29,6 @@ const assert = chai.assert;
 describe('$ aka querySelectorAll', () => {
     // checks that each "array-like" thing has
     // the same things in the same indices.
-    // Useful for comparing the "not-quite-Array" that
-    // querySelectorAll returns.
     function assertEquals(arr, qsa) {
         assert.isOk(arr);
         assert.equal(arr.length, qsa.length);
@@ -81,27 +79,27 @@ describe('findParent', () => {
     it('identifies the correct parent element', () => {
         // Add an HTML tree to the document.
         const div = document.createElement('div');
-        div.innerHTML =
-            '<div id=a>' +
-                '  <p id=aa>' +
-                '    <span id=aaa>span</span>' +
-                '    <span id=aab>span</span>' +
-                '  </p>' +
-                '  <span id=ab>' +
-                '    <p id=aba>para</p>' +
-                '  </span>' +
-                '  <div id=ac>' +
-                '    <p id=aca>para</p>' +
-                '  </div>' +
-                '</div>' +
-                '<div id=b>' +
-                '  <p id=ba>para</p>' +
-                '</div>' +
-                '<span id=c>' +
-                '  <span id=ca>' +
-                '    <p id=caa>para</p>' +
-                '  </span>' +
-                '</span>';
+        div.innerHTML = `
+      <div id=a>
+        <p id=aa>
+          <span id=aaa>span</span>
+          <span id=aab>span</span>
+        </p>
+        <span id=ab>
+          <p id=aba>para</p>
+        </span>
+        <div id=ac>
+          <p id=aca>para</p>
+        </div>
+      </div>
+      <div id=b>
+        <p id=ba>para</p>
+      </div>
+      <span id=c>
+        <span id=ca>
+          <p id=caa>para</p>
+        </span>
+      </span>`;
         assert.equal(findParent($$('#a', div), 'DIV'), $$('#a', div), 'Top level');
         assert.equal(findParent($$('#a', div), 'SPAN'), null);
         assert.equal(findParent($$('#aa', div), 'DIV'), $$('#a', div));
@@ -116,6 +114,47 @@ describe('findParent', () => {
         assert.equal(findParent($$('#caa', div), 'DIV'), div);
         assert.equal(findParent($$('#ca', div), 'SPAN'), $$('#ca', div));
         assert.equal(findParent($$('#caa', div), 'SPAN'), $$('#ca', div));
+    });
+});
+describe('findParentSafe', () => {
+    it('identifies the correct parent element', () => {
+        // Add an HTML tree to the document.
+        const div = document.createElement('div');
+        div.innerHTML = `
+      <div id=a>
+        <p id=aa>
+          <span id=aaa>span</span>
+          <span id=aab>span</span>
+        </p>
+        <span id=ab>
+          <p id=aba>para</p>
+        </span>
+        <div id=ac>
+          <p id=aca>para</p>
+        </div>
+      </div>
+      <div id=b>
+        <p id=ba>para</p>
+      </div>
+      <span id=c>
+        <span id=ca>
+          <p id=caa>para</p>
+        </span>
+      </span>`;
+        assert.equal(findParentSafe($$('#a', div), 'div'), $$('#a', div), 'Top level');
+        assert.equal(findParentSafe($$('#a', div), 'span'), null);
+        assert.equal(findParentSafe($$('#aa', div), 'div'), $$('#a', div));
+        assert.equal(findParentSafe($$('#aaa', div), 'div'), $$('#a', div));
+        assert.equal(findParentSafe($$('#aaa', div), 'p'), $$('#aa', div));
+        assert.equal(findParentSafe($$('#aab', div), 'span'), $$('#aab', div));
+        assert.equal(findParentSafe($$('#ab', div), 'p'), null);
+        assert.equal(findParentSafe($$('#aba', div), 'span'), $$('#ab', div));
+        assert.equal(findParentSafe($$('#ac', div), 'div'), $$('#ac', div));
+        assert.equal(findParentSafe($$('#aca', div), 'div'), $$('#ac', div));
+        assert.equal(findParentSafe($$('#ba', div), 'div'), $$('#b', div));
+        assert.equal(findParentSafe($$('#caa', div), 'div'), div);
+        assert.equal(findParentSafe($$('#ca', div), 'span'), $$('#ca', div));
+        assert.equal(findParentSafe($$('#caa', div), 'span'), $$('#ca', div));
     });
 });
 //# sourceMappingURL=dom_test.js.map

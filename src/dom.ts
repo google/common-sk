@@ -16,7 +16,7 @@
 /**
  * A Promise that resolves when DOMContentLoaded has fired.
  */
-export const DomReady = new Promise(resolve => {
+export const DomReady = new Promise((resolve) => {
   if (document.readyState !== 'loading') {
     // If readyState is already past loading then
     // DOMContentLoaded has already fired, so just resolve.
@@ -30,29 +30,29 @@ export const DomReady = new Promise(resolve => {
  *
  * @description Returns a real JS array of DOM elements that match the CSS selector.
  *
- * @param {string} query CSS selector string.
- * @param {Element} ele The Element to start the search from.
- * @returns {Array} Array of DOM Elements that match the CSS selector.
+ * @param query CSS selector string.
+ * @param ele The Element to start the search from.
+ * @returns Array of DOM Elements that match the CSS selector.
  *
  */
 export function $<E extends Element = Element>(
   query: string,
-  ele: E | Document = document
+  ele: Element | Document = document
 ): E[] {
-  return Array.prototype.slice.call(ele.querySelectorAll(query));
+  return Array.from(ele.querySelectorAll<E>(query));
 }
 
 /** @function $$
  *
  * @description Returns the first DOM element that matches the CSS query selector.
  *
- * @param {string} query CSS selector string.
- * @param {Element} ele The Element to start the search from.
- * @returns {Element} The first Element in DOM order that matches the CSS selector.
+ * @param query CSS selector string.
+ * @param ele The Element to start the search from.
+ * @returns The first Element in DOM order that matches the CSS selector.
  */
 export function $$<E extends Element = Element>(
   query: string,
-  ele: E | Document = document
+  ele: Element | Document = document
 ): E | null {
   return ele.querySelector(query);
 }
@@ -60,9 +60,9 @@ export function $$<E extends Element = Element>(
 /**
  * Find the first parent of 'ele' with the given 'nodeName'.
  *
- * @param {HTMLElement} ele - The element to start searching a.
- * @param {string} nodeName - The node name we are looking for.
- * @returns {HTMLElement} Either 'ele' or the first parent of 'ele' that has the nodeName of 'nodeName'.
+ * @param ele - The element to start searching a.
+ * @param nodeName - The node name we are looking for.
+ * @returns Either 'ele' or the first parent of 'ele' that has the nodeName of 'nodeName'. Returns null if none are found.
  *
  * @example
  *
@@ -76,6 +76,31 @@ export function findParent(
   while (ele !== null) {
     if (ele.nodeName === nodeName) {
       return ele;
+    }
+    ele = ele.parentElement;
+  }
+  return null;
+}
+
+/**
+ * Find the first parent of 'ele' with the given 'nodeName'. Just like findParent, but TypeScript typesafe.
+ *
+ * @param ele - The element to start searching a.
+ * @param nodeName - The lower-case node name we are looking for, e.g. 'div'.
+ * @returns Either 'ele' or the first parent of 'ele' that has the nodeName of 'nodeName'. Returns null if none are found.
+ *
+ * @example
+ *
+ *   findParentSafe(ele, 'div')
+ *
+ */
+export function findParentSafe<K extends keyof HTMLElementTagNameMap>(
+  ele: HTMLElement | null,
+  nodeName: K
+): HTMLElementTagNameMap[K] | null {
+  while (ele !== null) {
+    if (ele.nodeName.toLowerCase() === nodeName) {
+      return ele as HTMLElementTagNameMap[K];
     }
     ele = ele.parentElement;
   }

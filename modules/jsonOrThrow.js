@@ -12,6 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 /** @module common-sk/modules/jsonOrThrow */
+// ** The type of Error thrown by jsonOrThrow. */
+export class JsonOrThrowError extends Error {
+    constructor(resp) {
+        super();
+        this.message = `Bad network response: ${resp.statusText}`;
+        this.resp = resp;
+        this.status = resp.status;
+    }
+}
 /** Helper function when making fetch() requests.
  *
  * Checks if the response is ok and converts it to JSON, otherwise it throws.
@@ -28,18 +37,13 @@
  *      }
  *    });
  *
- * @returns {Promise}
- * @throws {Object} with status, resp, and message elements. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
+ * @throws A JsonOrThrowErrr. See the [Response docs]{@link https://developer.mozilla.org/en-US/docs/Web/API/Response }
  *         for more detail on reading resp (e.g. resp.text()).
  */
 export function jsonOrThrow(resp) {
     if (resp.ok) {
         return resp.json();
     }
-    throw {
-        message: `Bad network response: ${resp.statusText}`,
-        resp,
-        status: resp.status
-    };
+    throw new JsonOrThrowError(resp);
 }
 //# sourceMappingURL=jsonOrThrow.js.map

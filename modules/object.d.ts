@@ -1,19 +1,14 @@
-export declare type Hintable = number | boolean | string | any[] | object;
-export declare type HintableObject = {
-    [key: string]: Hintable;
-};
+import { Hintable, HintableObject } from './hintable';
 /** @method deepCopy
- *  @param {Object} object - The object to make a copy of.
- *  @returns {Object}
+ *  @param object - The object to make a copy of.
  */
-export declare function deepCopy(o: any): any;
+export declare function deepCopy<T>(o: T): T;
 /** Returns true if a and b are equal, covers Boolean, Number, String and Arrays and Objects.
  *
- * @param {(number|boolean|string|Array|Object)} a
- * @param {(number|boolean|string|Array|Object)} b
- * @returns {boolean} True if the arguments are equal.
+ * @param a The Hintable type object to compare.
+ * @param b The Hintable type object to compare.
  */
-export declare function equals(a: Hintable, b: Hintable): boolean | undefined;
+export declare function equals(a: Hintable, b: Hintable): boolean;
 /** Returns an object with only values that are in o that are different from d.
  *
  * Only works shallowly, i.e. only diffs on the attributes of

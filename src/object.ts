@@ -16,29 +16,21 @@
  *  @description Utility functions for dealing with Objects.
  */
 import { fromObject } from './query';
-
-// Hintable is the set of types that we can de/serialize with hints.
-export type Hintable = number | boolean | string | any[] | object;
-
-// HintableObject is any object with strings for keys and only contains Hintable
-// values.
-export type HintableObject = { [key: string]: Hintable };
+import { Hintable, HintableObject } from './hintable';
 
 /** @method deepCopy
- *  @param {Object} object - The object to make a copy of.
- *  @returns {Object}
+ *  @param object - The object to make a copy of.
  */
-export function deepCopy(o: any): any {
+export function deepCopy<T>(o: T): T {
   return JSON.parse(JSON.stringify(o));
 }
 
 /** Returns true if a and b are equal, covers Boolean, Number, String and Arrays and Objects.
  *
- * @param {(number|boolean|string|Array|Object)} a
- * @param {(number|boolean|string|Array|Object)} b
- * @returns {boolean} True if the arguments are equal.
+ * @param a The Hintable type object to compare.
+ * @param b The Hintable type object to compare.
  */
-export function equals(a: Hintable, b: Hintable) {
+export function equals(a: Hintable, b: Hintable): boolean {
   if (typeof a !== typeof b) {
     return false;
   }
@@ -47,11 +39,12 @@ export function equals(a: Hintable, b: Hintable) {
     return a === b;
   }
   if (ta === 'object') {
-    if (Array.isArray(ta)) {
+    if (Array.isArray(a)) {
       return JSON.stringify(a) === JSON.stringify(b);
     }
-    return fromObject(a) === fromObject(b);
+    return fromObject(a as HintableObject) === fromObject(b as HintableObject);
   }
+  return false;
 }
 
 /** Returns an object with only values that are in o that are different from d.
@@ -68,9 +61,9 @@ export function equals(a: Hintable, b: Hintable) {
  * @returns {Object}
  *
  */
-export function getDelta(o: HintableObject, d: HintableObject) {
+export function getDelta(o: HintableObject, d: HintableObject): HintableObject {
   const ret: HintableObject = {};
-  Object.keys(o).forEach(key => {
+  Object.keys(o).forEach((key) => {
     if (!equals(o[key], d[key])) {
       ret[key] = o[key];
     }
@@ -85,9 +78,12 @@ export function getDelta(o: HintableObject, d: HintableObject) {
  * @returns {Object}
  *
  */
-export function applyDelta(delta: HintableObject, o: HintableObject) {
+export function applyDelta(
+  delta: HintableObject,
+  o: HintableObject
+): HintableObject {
   const ret: HintableObject = {};
-  Object.keys(o).forEach(key => {
+  Object.keys(o).forEach((key) => {
     if (delta.hasOwnProperty(key)) {
       ret[key] = deepCopy(delta[key]);
     } else {

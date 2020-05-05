@@ -16,6 +16,7 @@
 import * as query from './query';
 import * as object from './object';
 import { DomReady } from './dom';
+import { HintableObject } from './hintable';
 
 /** Track the state of an object and reflect it to and from the URL.
  *
@@ -36,19 +37,19 @@ import { DomReady } from './dom';
  * // And then any time the app changes the value of _state:
  * this._stateHasChanged();
  *
- * @param {function} getState - Function that returns an object representing the state
+ * @param getState - Function that returns an object representing the state
  *     we want reflected to the URL.
  *
- * @param {function} setState(o) - Function to call when the URL has changed and the state
+ * @param setState(o) - Function to call when the URL has changed and the state
  *     object needs to be updated. The object 'o' doesn't need to be copied
  *     as it is a fresh object.
  *
- * @returns {function} A function to call when state has changed and needs to be reflected
+ * @returns A function to call when state has changed and needs to be reflected
  *   to the URL.
  */
 export function stateReflector(
-  getState: () => object.HintableObject,
-  setState: (o: object.HintableObject) => void
+  getState: () => HintableObject,
+  setState: (o: HintableObject) => void
 ): () => void {
   // The default state of the stateHolder. Used to calculate diffs to state.
   const defaultState = object.deepCopy(getState());
