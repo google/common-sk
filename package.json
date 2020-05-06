@@ -10,6 +10,11 @@
     "lint": "npx tslint -c tslint.json 'src/**/*.ts'",
     "build:ci": "npm ci && npm run lint && npm run clean && npx tsc && npm run test"
   },
+  "files": [
+    "modules/",
+    "*.js",
+    "plugins"
+  ],
   "main": "index.js",
   "license": "Apache-2.0",
   "devDependencies": {

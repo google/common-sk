@@ -22,7 +22,7 @@ describe('The human functions', () => {
             [10, 2, '10'],
             [10, 3, '010'],
             [31558150, 8, '31558150'],
-            [31558150, 9, '031558150']
+            [31558150, 9, '031558150'],
         ];
         for (const testCase of testCases) {
             assert.equal(human.pad(testCase[0], testCase[1]), testCase[2]);
@@ -52,7 +52,7 @@ describe('The human functions', () => {
             [86401, '  1d  1s'],
             [604799, '  6d 23h 59m 59s'],
             [604800, '  1w'],
-            [31558150, ' 52w  1d  6h  9m 10s']
+            [31558150, ' 52w  1d  6h  9m 10s'],
         ];
         for (const testCase of testCases) {
             assert.equal(human.strDuration(testCase[0]), testCase[1]);
@@ -93,7 +93,7 @@ describe('The human functions', () => {
             [-561599000, '6d'],
             [-561600000, '1w'],
             [604800000, '1w'],
-            [31558150000, '52w'] // 52w 1d 06h 09m 10s
+            [31558150000, '52w'],
         ];
         for (const testCase of testCases) {
             const diffMs = testCase[0];
@@ -129,7 +129,7 @@ describe('The human functions', () => {
             [1072693248, '1023 MB'],
             [1073741300, '1 GB'],
             [1073741824, '1 GB'],
-            [1073741825, '1 GB'] // 1 GB 000 MB 000 KB 001 B
+            [1073741825, '1 GB'],
         ];
         for (const tb of testBytesTestCases) {
             const b = tb[0];
@@ -155,7 +155,7 @@ describe('The human functions', () => {
             [1072693248, '1023 TB'],
             [1073741300, '1 PB'],
             [1073741824, '1 PB'],
-            [1073741825, '1 PB'] // 1 PB 000 TB 000 GB 001 MB
+            [1073741825, '1 PB'],
         ];
         for (const tm of testMB) {
             const b = tm[0];
