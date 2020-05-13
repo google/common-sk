@@ -10,6 +10,9 @@
     "lint": "npx tslint -c tslint.json 'src/**/*.ts'",
     "build:ci": "npm ci && npm run lint && npm run clean && npx tsc && npm run test"
   },
+  "publishConfig": {
+	  "registry": "https://wombat-dressing-room.appspot.com/"
+  },
   "files": [
     "modules/",
     "*.js",
