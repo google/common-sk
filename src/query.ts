@@ -19,7 +19,7 @@
 import { HintableObject } from './hintable';
 
 /** ParamSet mirrors //infra/go/paramtools ParamSet. */
-type ParamSet = { [key: string]: string[] };
+export type ParamSet = { [key: string]: string[] };
 
 /** fromParamSet encodes an object of the form:
  * <pre>
