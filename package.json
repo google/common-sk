@@ -1,6 +1,6 @@
 {
   "name": "common-sk",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "Common Skia JS modules.",
   "homepage": "https://github.com/google/common-sk",
   "repository": "https://github.com/google/common-sk.git",
@@ -11,7 +11,7 @@
     "build:ci": "npm ci && npm run lint && npm run clean && npx tsc && npm run test"
   },
   "publishConfig": {
-	  "registry": "https://wombat-dressing-room.appspot.com/"
+    "registry": "https://wombat-dressing-room.appspot.com/"
   },
   "files": [
     "modules/",
