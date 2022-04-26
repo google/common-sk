@@ -1,6 +1,6 @@
 {
   "name": "common-sk",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "Common Skia JS modules.",
   "homepage": "https://github.com/google/common-sk",
   "repository": "https://github.com/google/common-sk.git",
@@ -16,6 +16,7 @@
   "files": [
     "modules/",
     "*.js",
+    "src/*.ts",
     "plugins"
   ],
   "main": "index.js",
