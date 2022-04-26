@@ -16,6 +16,7 @@
   "files": [
     "modules/",
     "*.js",
+    "src/*.ts",
     "plugins"
   ],
   "main": "index.js",
